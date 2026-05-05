@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FreeWork — Verified Micro-Task & Reward Platform</title>
+<meta name="description" content="FreeWork connects clients with approved users who complete verified micro-task campaigns. Full admin control over payments, users, and rewards."/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html">
+      <div class="logo-mark">FW</div>
+      <span class="logo-name">FreeWork</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#clients">Clients</a></li>
+      <li><a href="#users">Users</a></li>
+      <li><a href="#payments">Payments</a></li>
+      <li><a href="#security">Security</a></li>
+    </ul>
+    <div class="nav-cta"><a href="dashboard.html" class="btn btn-p btn-sm">Dashboard Demo</a></div>
+    <div class="nav-ham" id="navHam"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+  <div class="hero-inner">
+    <!-- LEFT -->
+    <div>
+      <div class="tag-pill" style="margin-bottom:1.4rem">🔐 Admin-Controlled Platform</div>
+      <h1 class="hero-h1">Launch verified campaigns.<br>Reward <span>approved users.</span><br>Control every task.</h1>
+      <p class="hero-sub">FreeWork connects clients with approved users who complete verified promotional, feedback, and micro-task campaigns. Payments, users, submissions, and rewards stay under admin control.</p>
+      <div class="hero-btns">
+        <a href="#clients" class="btn btn-p">🚀 Create Campaign</a>
+        <a href="#users"   class="btn btn-s">👤 Register as User</a>
+      </div>
+    </div>
+    <!-- RIGHT: floating 3D cards -->
+    <div class="hero-vis" aria-hidden="true">
+      <div class="hcard hc1">
+        <div class="hc-bar bar-c"></div>
+        <div class="hc-tag">⚡ Active Campaign</div>
+        <div class="hc-val">Product Promo</div>
+        <div class="hc-sub">500 tasks · $0.50 each</div>
+        <div style="margin-top:.5rem"><span class="badge bg">Live</span></div>
+      </div>
+      <div class="hcard hc2">
+        <div class="hc-bar bar-g"></div>
+        <div class="hc-tag">💳 Payment Verified</div>
+        <div class="hc-val">250 USDC</div>
+        <div class="hc-sub">Solana · TXID confirmed</div>
+        <div style="margin-top:.5rem"><span class="badge bgold">Approved</span></div>
+      </div>
+      <div class="hcard hc3">
+        <div class="hc-bar bar-v"></div>
+        <div class="hc-tag">👤 User Approval</div>
+        <div class="hc-val">Iqbal Hossain</div>
+        <div class="hc-sub">Risk Score: 5 · Normal</div>
+        <div style="margin-top:.5rem"><span class="badge bg">Approved</span></div>
+      </div>
+      <div class="hcard hc4">
+        <div class="hc-bar bar-gr"></div>
+        <div class="hc-tag">💰 Reward Balance</div>
+        <div class="hc-val" style="color:var(--gold)">$18.50</div>
+        <div class="hc-sub">$12.00 withdrawable</div>
+      </div>
+      <div class="hcard hc5">
+        <div class="hc-bar bar-c"></div>
+        <div class="hc-tag">📊 Tasks Today</div>
+        <div class="hc-val">7 / 10</div>
+        <div style="margin-top:.5rem;height:4px;background:var(--surface);border-radius:2px">
+          <div style="width:70%;height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));border-radius:2px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="sec" id="how" style="background:linear-gradient(180deg,transparent,rgba(0,212,255,.02),transparent)">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;margin-bottom:3rem">
+      <div class="eyebrow" style="justify-content:center">Platform Flow</div>
+      <h2 class="sec-title" style="text-align:center">How FreeWork Works</h2>
+      <div class="rule" style="margin:1rem auto 0"></div>
+    </div>
+    <div class="how-grid">
+      <div class="how-card card reveal d1">
+        <div class="how-num">01</div>
+        <div class="how-ico">🏢</div>
+        <div class="how-t">Client Creates Campaign</div>
+        <div class="how-d">Client submits a campaign with budget, task details, and reward per completion for admin review.</div>
+      </div>
+      <div class="how-card card reveal d2">
+        <div class="how-num">02</div>
+        <div class="how-ico">💸</div>
+        <div class="how-t">Pay by Crypto &amp; Submit TXID</div>
+        <div class="how-d">Client pays in USDC on Solana and submits their TXID + payment screenshot for admin verification.</div>
+      </div>
+      <div class="how-card card reveal d3">
+        <div class="how-num">03</div>
+        <div class="how-ico">🔍</div>
+        <div class="how-t">Admin Verifies Everything</div>
+        <div class="how-d">Admin manually verifies payments, reviews users, publishes tasks, and approves all proof submissions.</div>
+      </div>
+      <div class="how-card card reveal d4">
+        <div class="how-num">04</div>
+        <div class="how-ico">🏆</div>
+        <div class="how-t">Users Work &amp; Earn Rewards</div>
+        <div class="how-d">Approved users complete tasks, upload proof, and receive crypto rewards after admin review and hold period.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="sec" id="clients">
+  <div class="wrap">
+    <div class="grid2">
+      <div class="reveal">
+        <div class="eyebrow">For Clients</div>
+        <h2 class="sec-title">Launch campaigns with precision</h2>
+        <div class="rule"></div>
+        <p class="sec-sub">Set your budget, define the task, pay by crypto, and watch admin-approved users deliver verified results.</p>
+        <ul class="feat-list">
+          <li>Create targeted campaigns with custom budgets</li>
+          <li>Set reward per approved task completion</li>
+          <li>Pay securely via USDC on Solana network</li>
+          <li>Submit TXID and payment screenshot for verification</li>
+          <li>Admin verifies payment before campaign goes live</li>
+          <li>Track campaign status and approved submissions in real time</li>
+          <li>Campaign funds held until tasks are verified</li>
+        </ul>
+        <div style="margin-top:2rem"><a href="dashboard.html" class="btn btn-p">View Client Dashboard →</a></div>
+      </div>
+      <div class="reveal d2">
+        <div class="card" style="padding:2rem">
+          <div class="eyebrow" style="margin-bottom:1rem">📋 Campaign Example</div>
+          <div style="margin-bottom:1.25rem">
+            <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:.25rem">Product Promotion Campaign</div>
+            <div style="font-size:.83rem;color:var(--t3)">Client: ABC Media · May 1, 2025</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem">
+            <div><div style="font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t4)">Budget</div><div style="font-weight:700;color:var(--gold);font-size:1.1rem">$250.00</div></div>
+            <div><div style="font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t4)">Per Task</div><div style="font-weight:700;color:var(--cyan);font-size:1.1rem">$0.50</div></div>
+            <div><div style="font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t4)">Max Tasks</div><div style="font-weight:700;color:var(--t1)">500</div></div>
+            <div><div style="font-family:var(--fm);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t4)">Completed</div><div style="font-weight:700;color:var(--green)">140</div></div>
+          </div>
+          <div style="margin-bottom:1rem">
+            <div style="display:flex;justify-content:space-between;font-size:.77rem;color:var(--t3);margin-bottom:.38rem"><span>Progress</span><span>140 / 500</span></div>
+            <div class="pb-track"><div class="pb-fill" data-w="28"></div></div>
+          </div>
+          <span class="badge bg">Active Campaign</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USERS -->
+<section class="sec" id="users" style="background:linear-gradient(180deg,transparent,rgba(124,58,237,.02),transparent)">
+  <div class="wrap">
+    <div class="grid2" style="direction:rtl">
+      <div class="reveal" style="direction:ltr">
+        <div class="eyebrow">For Users</div>
+        <h2 class="sec-title">Work, earn, and withdraw</h2>
+        <div class="rule"></div>
+        <p class="sec-sub">Register, get approved, complete verified tasks, and receive crypto rewards — all under transparent admin oversight.</p>
+        <ul class="feat-list">
+          <li>Register with email and phone verification</li>
+          <li>Wait for admin approval before accessing tasks</li>
+          <li>Complete tasks matched to your trust level</li>
+          <li>Upload screenshot proof of work</li>
+          <li>Track your pending and available balances</li>
+          <li>Rewards withdrawable after hold period (72h default)</li>
+          <li>Request crypto payout to your wallet</li>
+          <li>Max 10 tasks per rolling 24-hour period</li>
+        </ul>
+        <div style="margin-top:2rem"><a href="dashboard.html" class="btn btn-p">View User Dashboard →</a></div>
+      </div>
+      <div class="reveal d2" style="direction:ltr">
+        <div class="card" style="padding:2rem">
+          <div class="eyebrow" style="margin-bottom:1rem">👤 User Dashboard Preview</div>
+          <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem">
+            <div style="width:50px;height:50px;background:linear-gradient(135deg,var(--cyan),var(--violet));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;color:#fff">IH</div>
+            <div>
+              <div style="font-weight:700;color:var(--t1)">Iqbal Hossain</div>
+              <span class="badge bg">Approved</span> <span class="badge bc" style="margin-left:.35rem">Normal User</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+            <div style="padding:.75rem;background:var(--surface);border-radius:var(--r1);border:1px solid var(--b2)">
+              <div style="font-family:var(--fm);font-size:.59rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t4)">Pending</div>
+              <div style="font-family:var(--fd);font-size:1.2rem;font-weight:700;color:var(--gold)">$6.50</div>
+            </div>
+            <div style="padding:.75rem;background:var(--surface);border-radius:var(--r1);border:1px solid var(--b2)">
+              <div style="font-family:var(--fm);font-size:.59rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t4)">Withdrawable</div>
+              <div style="font-family:var(--fd);font-size:1.2rem;font-weight:700;color:var(--green)">$12.00</div>
+            </div>
+          </div>
+          <div class="pb-lbl"><span>Daily Tasks</span><span style="color:var(--cyan)">3 / 10</span></div>
+          <div class="pb-track"><div class="pb-fill" data-w="30"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENTS -->
+<section class="sec" id="payments">
+  <div class="wrap">
+    <div class="reveal" style="margin-bottom:3rem">
+      <div class="eyebrow">Crypto Payments</div>
+      <h2 class="sec-title">Pay by crypto, verify with TXID</h2>
+      <div class="rule"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem">
+      <!-- Info -->
+      <div class="reveal">
+        <p class="sec-sub" style="margin-bottom:1.5rem">All client payments are made in USDC on Solana. Submit your TXID and screenshot for admin verification before your campaign goes live.</p>
+        <div class="wallet-box">
+          <div class="wl">Accepted Coin &amp; Network</div>
+          <div class="wmeta"><span>Coin: <strong>USDC</strong></span><span>Network: <strong>Solana</strong></span><span>Example: <strong style="color:var(--cyan)">250 USDC</strong></span></div>
+          <div class="wl">Company Wallet Address</div>
+          <div class="wa">ALA8ep2VYdkbWNCvwZxgQoYD5FMVDkRwYVB4Q9ML1YUG</div>
+          <button class="copy-btn" data-copy="ALA8ep2VYdkbWNCvwZxgQoYD5FMVDkRwYVB4Q9ML1YUG">⎘ Copy Wallet</button>
+        </div>
+        <div class="pay-warn">
+          <span class="pw-ico">⚠️</span>
+          <p>Send payment only on the correct network. Payments sent to the wrong network or wrong wallet may be lost and may not be recoverable.</p>
+        </div>
+        <h4 style="font-family:var(--fd);font-size:.95rem;font-weight:600;color:var(--t1);margin-bottom:.75rem">Proof Required:</h4>
+        <ul class="feat-list">
+          <li>TXID / Transaction Hash</li>
+          <li>Payment Screenshot</li>
+          <li>Amount Sent</li>
+          <li>Coin &amp; Network used</li>
+          <li>Sender Wallet Address (optional)</li>
+        </ul>
+      </div>
+      <!-- Form -->
+      <div class="reveal d2">
+        <div class="card" style="padding:2rem">
+          <div class="eyebrow" style="margin-bottom:1.5rem">Submit Payment Proof</div>
+          <form id="payForm">
+            <div class="fg">
+              <label class="flabel">Amount Sent (USDC)</label>
+              <input type="number" class="finput" placeholder="e.g. 250" min="0" step="0.01" required/>
+            </div>
+            <div class="fg">
+              <label class="flabel">TXID / Transaction Hash</label>
+              <input type="text" class="finput" placeholder="Paste your transaction ID here" required/>
+            </div>
+            <div class="fg">
+              <label class="flabel">Payment Screenshot</label>
+              <div class="fu">
+                <input type="file" accept="image/*" data-prev="prevPay"/>
+                <div class="fu-ico">🖼️</div>
+                <div class="fu-txt">Click or drag to upload screenshot</div>
+              </div>
+              <img id="prevPay" class="fu-preview" alt="Preview"/>
+            </div>
+            <div class="fg">
+              <label class="flabel">Sender Wallet Address <span style="color:var(--t4)">(optional)</span></label>
+              <input type="text" class="finput" placeholder="Your sending wallet address"/>
+            </div>
+            <div class="nbar warn"><span class="nbar-ico">⚠️</span> TXID must be unique. The same TXID cannot be used for more than one campaign.</div>
+            <button type="submit" class="btn btn-p" style="width:100%;justify-content:center;margin-top:.5rem">📤 Submit for Review</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="sec" id="security" style="background:linear-gradient(180deg,transparent,rgba(255,53,87,.015),transparent)">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Anti-Abuse &amp; Verification</div>
+      <h2 class="sec-title">Protected by multi-layer verification</h2>
+      <div class="rule"></div>
+      <p class="sec-sub">FreeWork enforces strict anti-spam rules to protect campaign integrity and prevent reward abuse.</p>
+    </div>
+    <div class="sec-grid">
+      <div class="sec-card card reveal d1">
+        <div class="sec-ico">🔒</div>
+        <div class="sec-t">1 Account Per Identity</div>
+        <div class="sec-d">1 email = 1 account. 1 phone = 1 account. 1 payout wallet = 1 account. Duplicates are flagged and banned automatically.</div>
+      </div>
+      <div class="sec-card card reveal d2">
+        <div class="sec-ico">🌐</div>
+        <div class="sec-t">IP &amp; Device Monitoring</div>
+        <div class="sec-d">Repeat IPs trigger review (+20). Same IP across 3+ accounts = Spam Risk (+50). Same device fingerprint = flagged (+60).</div>
+      </div>
+      <div class="sec-card card reveal d3">
+        <div class="sec-ico">✅</div>
+        <div class="sec-t">Admin Approval Required</div>
+        <div class="sec-d">All users must be manually approved by admin before accessing any tasks. No auto-approvals in default configuration.</div>
+      </div>
+      <div class="sec-card card reveal d1">
+        <div class="sec-ico">⏱️</div>
+        <div class="sec-t">Daily Task Limit</div>
+        <div class="sec-d">Users cannot submit more than 10 tasks in a rolling 24-hour window. Trusted users may receive admin-granted custom limits.</div>
+      </div>
+      <div class="sec-card card reveal d2">
+        <div class="sec-ico">📸</div>
+        <div class="sec-t">Proof Verification</div>
+        <div class="sec-d">Every submission requires screenshot proof reviewed by admin. Duplicate or fake screenshots are flagged (+70 risk score).</div>
+      </div>
+      <div class="sec-card card reveal d3">
+        <div class="sec-ico">📊</div>
+        <div class="sec-t">Risk Score System</div>
+        <div class="sec-d">Each user carries a live risk score. 0–19: Low. 20–49: Review. 50–79: High Risk. 80+: Spam. Alerts notify admin instantly.</div>
+      </div>
+    </div>
+    <div class="nbar warn reveal" style="max-width:900px;margin-top:2rem">
+      <span class="nbar-ico">⚠️</span>
+      FreeWork rewards are paid only for approved task submissions. Fake accounts, duplicate accounts, fake screenshots, misleading claims, or abuse may lead to permanent suspension. Crypto payments and payouts must use the correct coin, network, and wallet address.
+    </div>
+    <div class="nbar danger reveal" style="max-width:900px">
+      <span class="nbar-ico">🚨</span>
+      Crypto payments are final. If funds are sent to the wrong wallet or wrong network, they may be lost permanently.
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="sec" id="dashprev">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;margin-bottom:0">
+      <div class="eyebrow" style="justify-content:center">Control Panel</div>
+      <h2 class="sec-title" style="text-align:center">Powerful dashboards for everyone</h2>
+      <div class="rule" style="margin:1rem auto 0"></div>
+      <p class="sec-sub" style="text-align:center;max-width:600px;margin:.5rem auto 0">Admin, client, and user dashboards give each stakeholder exactly the controls they need.</p>
+    </div>
+    <div class="dpg">
+      <div class="dpc card reveal d1">
+        <div class="dpc-lbl" style="color:var(--red)">🛡️ Admin Dashboard</div>
+        <div class="dpc-t">Full Control Panel</div>
+        <ul class="dpc-items">
+          <li>Review &amp; approve users with risk scores</li>
+          <li>Verify crypto payments &amp; TXIDs</li>
+          <li>Upload &amp; manage tasks by visibility</li>
+          <li>Review task submissions &amp; proof</li>
+          <li>Process crypto withdrawals</li>
+          <li>Monitor spam alerts &amp; risk flags</li>
+          <li>Configure all platform settings</li>
+        </ul>
+        <div style="margin-top:1.4rem"><a href="dashboard.html" class="btn btn-p btn-sm">Open Admin Demo →</a></div>
+      </div>
+      <div class="dpc card reveal d2">
+        <div class="dpc-lbl" style="color:var(--gold)">🏢 Client Dashboard</div>
+        <div class="dpc-t">Campaign Manager</div>
+        <ul class="dpc-items">
+          <li>Create new campaigns</li>
+          <li>Submit USDC payment proof</li>
+          <li>Track payment review status</li>
+          <li>Monitor campaign progress</li>
+          <li>View all approved submissions</li>
+          <li>Campaign lifecycle timeline</li>
+        </ul>
+        <div style="margin-top:1.4rem"><a href="dashboard.html" class="btn btn-g btn-sm">View Client Demo →</a></div>
+      </div>
+      <div class="dpc card reveal d3">
+        <div class="dpc-lbl" style="color:var(--cyan)">👤 User Dashboard</div>
+        <div class="dpc-t">Task Worker Panel</div>
+        <ul class="dpc-items">
+          <li>See available tasks by trust level</li>
+          <li>Submit proof of work</li>
+          <li>Track pending &amp; available balance</li>
+          <li>Request crypto withdrawals</li>
+          <li>Daily task limit progress bar</li>
+          <li>Account status &amp; level</li>
+        </ul>
+        <div style="margin-top:1.4rem"><a href="dashboard.html" class="btn btn-s btn-sm">View User Demo →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="reveal">
+      <h2 class="cta-h">Run campaigns with full control.</h2>
+      <p class="cta-sub">No automation. No shortcuts. Every step verified by admin.</p>
+      <div class="cta-btns">
+        <a href="dashboard.html" class="btn btn-p">Open Dashboard Demo</a>
+        <a href="#clients"       class="btn btn-s">Start FreeWork</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-in">
+    <a class="logo" href="index.html">
+      <div class="logo-mark" style="width:34px;height:34px;font-size:.78rem">FW</div>
+      <span class="logo-name" style="font-size:1rem">FreeWork</span>
+    </a>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Reward Policy</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Crypto Payment Rules</a></li>
+    </ul>
+    <span class="footer-copy">© 2025 FreeWork. All rights reserved.</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

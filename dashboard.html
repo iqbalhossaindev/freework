@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FreeWork — Admin Dashboard Demo</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body class="db">
+
+<!-- Sidebar overlay -->
+<div class="sb-overlay" id="sbOv"></div>
+
+<!-- SIDEBAR -->
+<aside class="sb" id="sidebar">
+  <a class="sb-logo" href="index.html">
+    <div class="logo-mark">FW</div>
+    <span class="sb-logo-t">FreeWork</span>
+  </a>
+  <ul class="sb-menu">
+    <li><a href="#" data-s="overview" class="active"><span class="sb-ico">📊</span><span class="sb-lbl">Overview</span></a></li>
+    <li><a href="#" data-s="users"><span class="sb-ico">👥</span><span class="sb-lbl">User Review</span><span class="sb-badge">2</span></a></li>
+    <li><a href="#" data-s="task-upload"><span class="sb-ico">📤</span><span class="sb-lbl">Task Upload</span></a></li>
+    <li><a href="#" data-s="task-mgmt"><span class="sb-ico">📋</span><span class="sb-lbl">Task Management</span></a></li>
+    <li><a href="#" data-s="payments"><span class="sb-ico">💳</span><span class="sb-lbl">Client Payments</span><span class="sb-badge">1</span></a></li>
+    <li><a href="#" data-s="campaigns"><span class="sb-ico">🚀</span><span class="sb-lbl">Campaigns</span></a></li>
+    <li><a href="#" data-s="submissions"><span class="sb-ico">📸</span><span class="sb-lbl">Submissions</span><span class="sb-badge">3</span></a></li>
+    <li><a href="#" data-s="withdrawals"><span class="sb-ico">💰</span><span class="sb-lbl">Withdrawals</span></a></li>
+    <li><a href="#" data-s="spam"><span class="sb-ico">🚨</span><span class="sb-lbl">Spam Alerts</span><span class="sb-badge">4</span></a></li>
+    <li><a href="#" data-s="settings"><span class="sb-ico">⚙️</span><span class="sb-lbl">Settings</span></a></li>
+    <li><a href="#" data-s="user-dash"><span class="sb-ico">👤</span><span class="sb-lbl">User Dashboard</span></a></li>
+    <li><a href="#" data-s="client-dash"><span class="sb-ico">🏢</span><span class="sb-lbl">Client Dashboard</span></a></li>
+  </ul>
+  <div class="sb-foot"><a href="index.html">← Back to Main Site</a></div>
+</aside>
+
+<!-- MAIN -->
+<main class="dm">
+  <!-- TOPBAR -->
+  <header class="tb">
+    <div class="tb-ham" id="tbHam"><span></span><span></span><span></span></div>
+    <h1 class="tb-title">Overview</h1>
+    <div class="tb-right">
+      <div class="tb-bell">🔔<span class="tb-dot"></span></div>
+      <div class="tb-av">AD</div>
+    </div>
+  </header>
+
+  <div class="dc">
+
+    <!-- ═══════════ OVERVIEW ═══════════ -->
+    <section class="dsec active" id="s-overview">
+      <div class="sg">
+        <div class="sc card"><div class="sc-top"><span class="sc-lbl">Total Users</span><span class="sc-ico">👥</span></div><div class="sc-val" data-c="1248">—</div><div class="sc-ch">↑ +12 today</div></div>
+        <div class="sc card"><div class="sc-top"><span class="sc-lbl">Pending Users</span><span class="sc-ico">⏳</span></div><div class="sc-val" data-c="18">—</div><div class="sc-ch" style="color:var(--gold)">Awaiting review</div></div>
+        <div class="sc card"><div class="sc-top"><span class="sc-lbl">Active Campaigns</span><span class="sc-ico">🚀</span></div><div class="sc-val" data-c="7">—</div><div class="sc-ch" style="color:var(--cyan)">Running now</div></div>
+        <div class="sc card"><div class="sc-top"><span class="sc-lbl">Tasks Today</span><span class="sc-ico">🏆</span></div><div class="sc-val" data-c="312">—</div><div class="sc-ch">↑ +48 from yesterday</div></div>
+      </div>
+      <div class="sg">
+        <div class="sc card"><div class="sc-top"><span class="sc-lbl">Pending Payments</span><span class="sc-ico">💳</span></div><div class="sc-val" data-c="3">—</div><div class="sc-ch" style="color:var(--gold)">Needs verification</div></div>
+        <div class="sc card"><div class="sc-top"><span class="sc-lbl">Pending Proofs</span><span class="sc-ico">📸</span></div><div class="sc-val" data-c="49">—</div><div class="sc-ch" style="color:var(--gold)">Awaiting review</div></div>
+        <div class="sc card"><div class="sc-top"><span class="sc-lbl">Spam Alerts</span><span class="sc-ico">🚨</span></div><div class="sc-val" data-c="4">—</div><div class="sc-ch neg">↑ Needs attention</div></div>
+        <div class="sc card"><div class="sc-top"><span class="sc-lbl">Payout Requests</span><span class="sc-ico">💰</span></div><div class="sc-val" data-c="7">—</div><div class="sc-ch" style="color:var(--violet)">Pending approval</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1rem">
+        <div class="card" style="padding:1.5rem">
+          <div style="font-family:var(--fd);font-size:.98rem;font-weight:700;color:var(--t1);margin-bottom:1.2rem">📈 Today's Summary</div>
+          <div style="display:flex;flex-direction:column;gap:.7rem">
+            <div style="display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--b2)"><span style="font-size:.87rem;color:var(--t3)">Users Approved</span><span style="font-weight:700;color:var(--green)">8</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--b2)"><span style="font-size:.87rem;color:var(--t3)">Payments Pending</span><span style="font-weight:700;color:var(--gold)">3</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--b2)"><span style="font-size:.87rem;color:var(--t3)">Task Submissions</span><span style="font-weight:700;color:var(--cyan)">312</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--b2)"><span style="font-size:.87rem;color:var(--t3)">Spam Risk Count</span><span style="font-weight:700;color:var(--red)">4</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.55rem 0"><span style="font-size:.87rem;color:var(--t3)">Payout Requests</span><span style="font-weight:700;color:var(--violet)">7</span></div>
+          </div>
+        </div>
+        <div class="card" style="padding:1.5rem">
+          <div style="font-family:var(--fd);font-size:.98rem;font-weight:700;color:var(--t1);margin-bottom:1.2rem">⚡ Quick Actions</div>
+          <div style="display:flex;flex-direction:column;gap:.65rem">
+            <button class="btn btn-ghost" onclick="document.querySelector('[data-s=users]').click()" style="justify-content:flex-start">👥 Review Pending Users (18)</button>
+            <button class="btn btn-ghost" onclick="document.querySelector('[data-s=payments]').click()" style="justify-content:flex-start">💳 Verify Payments (3)</button>
+            <button class="btn btn-ghost" onclick="document.querySelector('[data-s=submissions]').click()" style="justify-content:flex-start">📸 Review Task Proofs (49)</button>
+            <button class="btn btn-ghost" onclick="document.querySelector('[data-s=spam]').click()" style="justify-content:flex-start">🚨 Check Spam Alerts (4)</button>
+            <button class="btn btn-ghost" onclick="document.querySelector('[data-s=withdrawals]').click()" style="justify-content:flex-start">💰 Process Withdrawals (7)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ USER REVIEW ═══════════ -->
+    <section class="dsec" id="s-users">
+      <div class="dsh"><div><div class="dsh-t">User Review</div><div class="dsh-s">Review, approve or reject user registrations.</div></div></div>
+      <div class="tc">
+        <input type="text" class="si" placeholder="Search users…" data-tbl="tblUsers"/>
+        <select class="fs" data-tbl="tblUsers"><option value="">All Statuses</option><option>Approved</option><option>Pending</option><option>Rejected</option><option>Suspended</option></select>
+        <select class="fs" data-tbl="tblUsers"><option value="">All Risk Levels</option><option>Low</option><option>Review</option><option>High Risk</option><option>Spam</option></select>
+      </div>
+      <div class="tw card" style="padding:0">
+        <table id="tblUsers">
+          <thead><tr><th>User</th><th>Phone</th><th>IP Address</th><th>IP Status</th><th>Device</th><th>Wallet</th><th>Tasks 24h</th><th>Level</th><th>Status</th><th>Risk</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr id="ur-iqbal">
+              <td><div class="uc"><div class="uav">IH</div><div><div class="un">Iqbal Hossain</div><div class="ue">iqbal@example.com</div></div></div></td>
+              <td class="mono">+971 56 348 5950</td><td class="mono">95.188.143.22</td>
+              <td><span class="badge bc">New</span></td><td><span class="badge bgr">New Device</span></td><td><span class="badge bg">Unique</span></td>
+              <td>3 / 10</td><td class="lvl-cell">Normal User</td>
+              <td class="st-cell"><span class="badge bg">Approved</span></td>
+              <td><span class="rb rl">5 — Low</span></td>
+              <td><div class="abtns">
+                <button class="btn btn-ghost btn-xs" onclick="openUser('iqbal')">View</button>
+                <button class="btn btn-success btn-xs" data-action="approve-user" data-row="ur-iqbal">Approve</button>
+                <button class="btn btn-danger btn-xs" data-action="reject-user" data-row="ur-iqbal">Reject</button>
+                <select class="fs lvl-sel" data-row="ur-iqbal" style="font-size:.7rem;padding:.22rem"><option>Change Level</option><option>New User</option><option>Normal User</option><option>Trusted User</option><option>VIP User</option><option>Suspended</option></select>
+              </div></td>
+            </tr>
+            <tr id="ur-rafi">
+              <td><div class="uc"><div class="uav" style="background:linear-gradient(135deg,var(--gold),var(--orange))">RA</div><div><div class="un">Rafi Ahmed</div><div class="ue">rafi@example.com</div></div></div></td>
+              <td class="mono">+880 1712 345678</td><td class="mono">95.188.143.22</td>
+              <td><span class="badge bgold">Repeat</span></td><td><span class="badge bgr">New Device</span></td><td><span class="badge bg">Unique</span></td>
+              <td>0 / 10</td><td class="lvl-cell">New User</td>
+              <td class="st-cell"><span class="badge bgold">Pending Review</span></td>
+              <td><span class="rb rr">35 — Review</span></td>
+              <td><div class="abtns">
+                <button class="btn btn-ghost btn-xs" onclick="openUser('rafi')">View</button>
+                <button class="btn btn-success btn-xs" data-action="approve-user" data-row="ur-rafi">Approve</button>
+                <button class="btn btn-danger btn-xs" data-action="reject-user" data-row="ur-rafi">Reject</button>
+                <button class="btn btn-warn btn-xs" data-action="suspend-user" data-row="ur-rafi">Suspend</button>
+              </div></td>
+            </tr>
+            <tr id="ur-shuvo">
+              <td><div class="uc"><div class="uav" style="background:linear-gradient(135deg,var(--red),#a00)">SI</div><div><div class="un">Shuvo Islam</div><div class="ue">shuvo@example.com</div></div></div></td>
+              <td class="mono">+880 1911 222333</td><td class="mono">95.188.143.22</td>
+              <td><span class="badge br">Spam Risk</span></td><td><span class="badge br">Repeat Device</span></td><td><span class="badge br">Duplicate Risk</span></td>
+              <td>9 / 10</td><td class="lvl-cell">New User</td>
+              <td class="st-cell"><span class="badge bgold">Pending Review</span></td>
+              <td><span class="rb rs">85 — Spam</span></td>
+              <td><div class="abtns">
+                <button class="btn btn-ghost btn-xs" onclick="openUser('shuvo')">View</button>
+                <button class="btn btn-danger btn-xs" data-action="reject-user" data-row="ur-shuvo">Reject</button>
+                <button class="btn btn-danger btn-xs" data-action="spam-user" data-row="ur-shuvo">Mark Spam</button>
+              </div></td>
+            </tr>
+            <tr id="ur-maria">
+              <td><div class="uc"><div class="uav" style="background:linear-gradient(135deg,var(--violet),#4c1d95)">MK</div><div><div class="un">Maria Khan</div><div class="ue">maria@example.com</div></div></div></td>
+              <td class="mono">+44 7700 900123</td><td class="mono">82.14.93.18</td>
+              <td><span class="badge bc">New</span></td><td><span class="badge bgr">New Device</span></td><td><span class="badge bg">Unique</span></td>
+              <td>10 / 10</td><td class="lvl-cell">Trusted User</td>
+              <td class="st-cell"><span class="badge bg">Approved</span></td>
+              <td><span class="rb rl">10 — Low</span></td>
+              <td><div class="abtns">
+                <button class="btn btn-ghost btn-xs" onclick="openUser('maria')">View</button>
+                <button class="btn btn-success btn-xs" data-action="approve-user" data-row="ur-maria">Approve</button>
+                <button class="btn btn-danger btn-xs" data-action="reject-user" data-row="ur-maria">Reject</button>
+                <select class="fs lvl-sel" data-row="ur-maria" style="font-size:.7rem;padding:.22rem"><option>Change Level</option><option>New User</option><option>Normal User</option><option>Trusted User</option><option>VIP User</option><option>Suspended</option></select>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══════════ TASK UPLOAD ═══════════ -->
+    <section class="dsec" id="s-task-upload">
+      <div class="dsh"><div><div class="dsh-t">Task Upload</div><div class="dsh-s">Create and publish new tasks for approved users.</div></div></div>
+      <div class="card" style="padding:2rem;max-width:880px">
+        <div class="fg">
+          <label class="flabel">Task Photo</label>
+          <div class="fu"><input type="file" accept="image/*" data-prev="prevTask"/><div class="fu-ico">🖼️</div><div class="fu-txt">Click or drag to upload task image</div></div>
+          <img id="prevTask" class="img-prev" alt="Task preview"/>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="flabel">Task Name *</label><input type="text" class="finput" placeholder="e.g. Visit Website and Upload Screenshot"/></div>
+          <div class="fg"><label class="flabel">Client Name *</label><input type="text" class="finput" placeholder="e.g. ABC Media"/></div>
+        </div>
+        <div class="fg"><label class="flabel">Task Description *</label><textarea class="ftextarea" placeholder="Describe exactly what the user needs to do…" style="min-height:110px"></textarea></div>
+        <div class="frow">
+          <div class="fg"><label class="flabel">Task Link</label><input type="url" class="finput" placeholder="https://example.com/target"/></div>
+          <div class="fg"><label class="flabel">Campaign Name *</label><input type="text" class="finput" placeholder="e.g. Product Promotion Q2"/></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="flabel">Reward Per Completion ($)</label><input type="number" class="finput" placeholder="e.g. 0.50" min="0" step="0.01"/></div>
+          <div class="fg"><label class="flabel">Total Task Budget ($)</label><input type="number" class="finput" placeholder="e.g. 250.00" min="0" step="0.01"/></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="flabel">Max Approved Completions</label><input type="number" class="finput" placeholder="e.g. 500" min="1"/></div>
+          <div class="fg"><label class="flabel">Task Deadline *</label><input type="date" class="finput"/></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="flabel">Required Proof Type *</label>
+            <select class="fselect"><option value="">Select proof type…</option><option>Screenshot Upload</option><option>TXID / Transaction Proof</option><option>Text Answer</option><option>Link Submission</option><option>Screenshot + Note</option><option>Screenshot + User Profile Link</option></select>
+          </div>
+          <div class="fg"><label class="flabel">Trust Level Required</label>
+            <select class="fselect"><option>New User</option><option selected>Normal User</option><option>Trusted User</option><option>VIP User</option></select>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="flabel">Task Visibility *</label>
+            <select class="fselect" id="tVis">
+              <option value="public">Public Task — All approved users</option>
+              <option value="trusted">Trusted User Task — Trusted &amp; VIP only</option>
+              <option value="specific">Specific User Task — Selected users only</option>
+              <option value="private">Private Task — Assigned users only (hidden)</option>
+            </select>
+            <div class="fhint">Public: all approved. Trusted: Trusted+VIP. Specific/Private: assigned users only.</div>
+          </div>
+          <div class="fg"><label class="flabel">Task Status</label>
+            <select class="fselect"><option>Draft</option><option>Active</option><option>Paused</option><option>Completed</option><option>Expired</option><option>Cancelled</option></select>
+          </div>
+        </div>
+        <!-- Assigned users (conditional) -->
+        <div class="fg" id="assignSec" style="display:none">
+          <label class="flabel">Assigned Users</label>
+          <div class="usel">
+            <input type="text" class="usel-s" placeholder="Search by name, email, phone…"/>
+            <div class="usel-list">
+              <label class="usel-item"><input type="checkbox" id="u-iqbal" data-n="Iqbal Hossain" value="iqbal"/> Iqbal Hossain — iqbal@example.com</label>
+              <label class="usel-item"><input type="checkbox" id="u-rafi" data-n="Rafi Ahmed" value="rafi"/> Rafi Ahmed — rafi@example.com</label>
+              <label class="usel-item"><input type="checkbox" id="u-shuvo" data-n="Shuvo Islam" value="shuvo"/> Shuvo Islam — shuvo@example.com</label>
+              <label class="usel-item"><input type="checkbox" id="u-maria" data-n="Maria Khan" value="maria" checked/> Maria Khan — maria@example.com</label>
+            </div>
+          </div>
+          <div class="tags" id="uTags"></div>
+        </div>
+        <!-- Special limit -->
+        <div class="slim-box">
+          <div class="slim-t">⭐ Special Daily Task Limit (Trusted Users)</div>
+          <div class="frow" style="margin-bottom:0">
+            <div class="fg" style="margin-bottom:0"><label class="flabel">Default Daily Limit</label><input type="number" class="finput" value="10" readonly/></div>
+            <div class="fg" style="margin-bottom:0"><label class="flabel">Custom Limit for Trusted Users</label>
+              <select class="fselect"><option>Default (10)</option><option>20</option><option>30</option><option>50</option><option>Unlimited</option></select>
+            </div>
+          </div>
+        </div>
+        <div class="fact">
+          <button class="btn btn-p" data-action="publish">📤 Publish Task</button>
+          <button class="btn btn-s" data-action="save-draft">💾 Save Draft</button>
+          <button class="btn btn-ghost" data-action="reset-form">🔄 Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ TASK MANAGEMENT ═══════════ -->
+    <section class="dsec" id="s-task-mgmt">
+      <div class="dsh">
+        <div><div class="dsh-t">Task Management</div><div class="dsh-s">View, edit, pause or delete existing tasks.</div></div>
+        <button class="btn btn-p btn-sm" onclick="document.querySelector('[data-s=task-upload]').click()">+ New Task</button>
+      </div>
+      <div class="tc">
+        <input type="text" class="si" placeholder="Search tasks…" data-tbl="tblTasks"/>
+        <select class="fs" data-tbl="tblTasks"><option value="">All Statuses</option><option>Active</option><option>Paused</option><option>Completed</option></select>
+        <select class="fs" data-tbl="tblTasks"><option value="">All Visibility</option><option>Public</option><option>Trusted</option><option>Specific</option><option>Private</option></select>
+      </div>
+      <div class="tw card" style="padding:0">
+        <table id="tblTasks">
+          <thead><tr><th>Photo</th><th>Task Name</th><th>Client / Campaign</th><th>Reward</th><th>Visibility</th><th>Trust</th><th>Max</th><th>Sub</th><th>Appr</th><th>Pend</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="tthumb">🌐</div></td>
+              <td><strong style="color:var(--t1)">Visit Website & Upload Screenshot</strong></td>
+              <td><div style="font-size:.79rem">ABC Media<br/><span style="color:var(--t4)">Product Promotion</span></div></td>
+              <td><strong style="color:var(--gold)">$0.50</strong></td>
+              <td><span class="badge bc">Public</span></td>
+              <td><span class="badge bgr">Normal</span></td>
+              <td>500</td><td style="color:var(--t1);font-weight:600">182</td>
+              <td style="color:var(--green);font-weight:600">140</td>
+              <td style="color:var(--gold);font-weight:600">42</td>
+              <td><span class="badge bg">Active</span></td>
+              <td><div class="abtns">
+                <button class="btn btn-ghost btn-xs" data-action="view-task">View</button>
+                <button class="btn btn-ghost btn-xs" data-action="edit-task">Edit</button>
+                <button class="btn btn-warn btn-xs" data-action="pause-task">Pause</button>
+                <button class="btn btn-danger btn-xs" data-action="delete-task">Del</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td><div class="tthumb">⭐</div></td>
+              <td><strong style="color:var(--t1)">High Value Feedback Task</strong></td>
+              <td><div style="font-size:.79rem">KestFord Tools<br/><span style="color:var(--t4)">Premium Feedback</span></div></td>
+              <td><strong style="color:var(--gold)">$5.00</strong></td>
+              <td><span class="badge bv">Trusted</span></td>
+              <td><span class="badge bv">Trusted</span></td>
+              <td>50</td><td style="color:var(--t1);font-weight:600">18</td>
+              <td style="color:var(--green);font-weight:600">12</td>
+              <td style="color:var(--gold);font-weight:600">6</td>
+              <td><span class="badge bg">Active</span></td>
+              <td><div class="abtns">
+                <button class="btn btn-ghost btn-xs" data-action="view-task">View</button>
+                <button class="btn btn-ghost btn-xs" data-action="edit-task">Edit</button>
+                <button class="btn btn-warn btn-xs" data-action="pause-task">Pause</button>
+                <button class="btn btn-danger btn-xs" data-action="delete-task">Del</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td><div class="tthumb">🔒</div></td>
+              <td><strong style="color:var(--t1)">Private Campaign Review</strong></td>
+              <td><div style="font-size:.79rem">Private Client<br/><span style="color:var(--t4)">Confidential Review</span></div></td>
+              <td><strong style="color:var(--gold)">$3.00</strong></td>
+              <td><span class="badge bgr">Private</span></td>
+              <td><span class="badge bgold">VIP</span></td>
+              <td>10</td><td style="color:var(--t1);font-weight:600">4</td>
+              <td style="color:var(--green);font-weight:600">3</td>
+              <td style="color:var(--gold);font-weight:600">1</td>
+              <td><span class="badge bg">Active</span></td>
+              <td><div class="abtns">
+                <button class="btn btn-ghost btn-xs" data-action="view-task">View</button>
+                <button class="btn btn-ghost btn-xs" data-action="edit-task">Edit</button>
+                <button class="btn btn-ghost btn-xs" data-action="assign-users">Assign</button>
+                <button class="btn btn-danger btn-xs" data-action="delete-task">Del</button>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══════════ CLIENT PAYMENTS ═══════════ -->
+    <section class="dsec" id="s-payments">
+      <div class="dsh"><div><div class="dsh-t">Client Payment Review</div><div class="dsh-s">Verify TXID, screenshot and amount before publishing campaigns.</div></div></div>
+      <div class="nbar warn" style="margin-bottom:1.5rem"><span class="nbar-ico">⚠️</span> TXID must be unique. The same TXID cannot be used for more than one campaign. Verify on Solana Explorer before approving.</div>
+      <div class="prc card">
+        <div class="prc-h">
+          <div>
+            <div class="prc-t">ABC Media — Product Promotion Campaign</div>
+            <div style="font-size:.79rem;color:var(--t3);margin-top:.2rem">Submitted: May 2, 2025 · 14:22 UTC</div>
+          </div>
+          <span class="badge bgold pay-st">Under Review</span>
+        </div>
+        <div class="prc-grid">
+          <div><div class="pdi-l">Required Amount</div><div class="pdi-v" style="color:var(--cyan)">250 USDC</div></div>
+          <div><div class="pdi-l">Submitted Amount</div><div class="pdi-v" style="color:var(--green)">250 USDC</div></div>
+          <div><div class="pdi-l">Coin / Network</div><div class="pdi-v">USDC / Solana</div></div>
+          <div style="grid-column:span 2">
+            <div class="pdi-l">Company Wallet</div>
+            <div class="txid-row">
+              <span class="txid-t">ALA8ep2VYdkbWNCvwZxgQoYD5FMVDkRwYVB4Q9ML1YUG</span>
+              <button class="copy-btn" data-copy="ALA8ep2VYdkbWNCvwZxgQoYD5FMVDkRwYVB4Q9ML1YUG" style="font-size:.6rem">⎘ Copy</button>
+            </div>
+          </div>
+          <div style="grid-column:span 3">
+            <div class="pdi-l">Transaction ID (TXID)</div>
+            <div class="txid-row">
+              <span class="txid-t">5R4mHy91q3txJvD8uwf2u2mExampleTxidFhL8A6i5wA9</span>
+              <button class="copy-btn" data-copy="5R4mHy91q3txJvD8uwf2u2mExampleTxidFhL8A6i5wA9" style="font-size:.6rem">⎘ Copy</button>
+            </div>
+          </div>
+          <div>
+            <div class="pdi-l">Screenshot</div>
+            <div style="width:80px;height:58px;background:var(--surface);border-radius:var(--r1);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer" title="View screenshot">🖼️</div>
+          </div>
+        </div>
+        <div class="abtns">
+          <button class="btn btn-success btn-sm" data-action="approve-payment">✅ Approve Payment</button>
+          <button class="btn btn-danger btn-sm" data-action="reject-payment">❌ Reject Payment</button>
+          <button class="btn btn-ghost btn-sm" data-action="wrong-network">Wrong Network</button>
+          <button class="btn btn-ghost btn-sm" data-action="wrong-amount">Wrong Amount</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ CAMPAIGNS ═══════════ -->
+    <section class="dsec" id="s-campaigns">
+      <div class="dsh"><div><div class="dsh-t">Campaigns</div><div class="dsh-s">All campaigns across all clients.</div></div></div>
+      <div class="tw card" style="padding:0">
+        <table>
+          <thead><tr><th>Campaign</th><th>Client</th><th>Budget</th><th>Per Task</th><th>Tasks</th><th>Completed</th><th>Spent</th><th>Status</th><th>Deadline</th></tr></thead>
+          <tbody>
+            <tr><td><strong style="color:var(--t1)">Product Promotion Campaign</strong></td><td>ABC Media</td><td style="color:var(--gold);font-weight:700">$250</td><td style="color:var(--cyan)">$0.50</td><td>500</td><td style="color:var(--green);font-weight:600">140</td><td>$70.00</td><td><span class="badge bg">Active</span></td><td class="mono" style="font-size:.77rem">Jun 30, 2025</td></tr>
+            <tr><td><strong style="color:var(--t1)">Premium Feedback</strong></td><td>KestFord Tools</td><td style="color:var(--gold);font-weight:700">$250</td><td style="color:var(--cyan)">$5.00</td><td>50</td><td style="color:var(--green);font-weight:600">12</td><td>$60.00</td><td><span class="badge bg">Active</span></td><td class="mono" style="font-size:.77rem">May 31, 2025</td></tr>
+            <tr><td><strong style="color:var(--t1)">Confidential Review</strong></td><td>Private Client</td><td style="color:var(--gold);font-weight:700">$30</td><td style="color:var(--cyan)">$3.00</td><td>10</td><td style="color:var(--green);font-weight:600">3</td><td>$9.00</td><td><span class="badge bg">Active</span></td><td class="mono" style="font-size:.77rem">May 20, 2025</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══════════ SUBMISSIONS ═══════════ -->
+    <section class="dsec" id="s-submissions">
+      <div class="dsh"><div><div class="dsh-t">Task Submission Review</div><div class="dsh-s">Review screenshot proof before approving rewards.</div></div></div>
+      <div class="tc"><input type="text" class="si" placeholder="Search submissions…"/><select class="fs"><option value="">All Statuses</option><option>Pending Review</option><option>Approved</option><option>Rejected</option><option>Suspicious</option></select></div>
+
+      <div class="sub-card card">
+        <div class="sub-thumb" title="View proof">🖼️</div>
+        <div class="sub-info">
+          <h4>Visit Website and Upload Screenshot</h4>
+          <div class="sub-meta"><span>👤 Iqbal Hossain</span><span>🏢 ABC Media</span><span>🌐 IP: 95.188.143.22</span><span>📱 Chrome / Win11</span><span>⏰ May 2, 2025 · 15:44 UTC</span></div>
+          <span class="badge bgold sub-st">Pending Review</span> <span class="badge bc" style="margin-left:.35rem">$0.50 Reward</span>
+        </div>
+        <div class="sub-acts">
+          <button class="btn btn-success btn-sm" data-action="approve-sub">✅ Approve</button>
+          <button class="btn btn-danger btn-sm" data-action="reject-sub">❌ Reject</button>
+          <button class="btn btn-ghost btn-sm" data-action="resubmit">↩ Resubmit</button>
+          <button class="btn btn-warn btn-sm" data-action="mark-fake">🚩 Mark Fake</button>
+        </div>
+      </div>
+
+      <div class="sub-card card">
+        <div class="sub-thumb" title="View proof">🖼️</div>
+        <div class="sub-info">
+          <h4>High Value Feedback Task</h4>
+          <div class="sub-meta"><span>👤 Maria Khan</span><span>🏢 KestFord Tools</span><span>🌐 IP: 82.14.93.18</span><span>📱 Safari / iPhone 15</span><span>⏰ May 2, 2025 · 12:10 UTC</span></div>
+          <span class="badge bgold sub-st">Pending Review</span> <span class="badge bgold" style="margin-left:.35rem">$5.00 Reward</span>
+        </div>
+        <div class="sub-acts">
+          <button class="btn btn-success btn-sm" data-action="approve-sub">✅ Approve</button>
+          <button class="btn btn-danger btn-sm" data-action="reject-sub">❌ Reject</button>
+          <button class="btn btn-ghost btn-sm" data-action="resubmit">↩ Resubmit</button>
+        </div>
+      </div>
+
+      <div class="sub-card card" style="border-color:rgba(255,53,87,.22)">
+        <div class="sub-thumb" title="Suspicious">🚩</div>
+        <div class="sub-info">
+          <h4>Visit Website and Upload Screenshot</h4>
+          <div class="sub-meta"><span>👤 Shuvo Islam</span><span>🏢 ABC Media</span><span>🌐 IP: 95.188.143.22 <span class="badge br" style="font-size:.58rem;margin-left:.2rem">Spam IP</span></span><span>📱 Chrome / Android</span><span>⏰ May 2, 2025 · 09:02 UTC</span></div>
+          <span class="badge br sub-st">Suspicious</span> <span class="badge br" style="margin-left:.35rem">Risk: 85</span>
+        </div>
+        <div class="sub-acts">
+          <button class="btn btn-danger btn-sm" data-action="reject-sub">❌ Reject</button>
+          <button class="btn btn-warn btn-sm" data-action="mark-fake">🚩 Mark Fake</button>
+          <button class="btn btn-ghost btn-sm" data-action="hold-wd">⏸ Hold</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ WITHDRAWALS ═══════════ -->
+    <section class="dsec" id="s-withdrawals">
+      <div class="dsh"><div><div class="dsh-t">Withdrawal Requests</div><div class="dsh-s">Review and process user crypto payout requests.</div></div></div>
+      <div class="nbar warn" style="margin-bottom:1.5rem"><span class="nbar-ico">⚠️</span> Crypto payouts are final. Verify the wallet address before approving. Wallet changes lock withdrawals for 24h. Minimum withdrawal set in Settings.</div>
+      <div class="tw card" style="padding:0">
+        <table>
+          <thead><tr><th>User</th><th>Available</th><th>Requested</th><th>Coin / Network</th><th>Wallet Address</th><th>Risk</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr id="wd-1">
+              <td><div class="uc"><div class="uav">IH</div><span class="un">Iqbal Hossain</span></div></td>
+              <td style="color:var(--green);font-weight:700">$18.50</td><td style="color:var(--gold);font-weight:700">$12.00</td>
+              <td><span class="badge bc">USDC · Solana</span></td>
+              <td><span class="mono">8Kj2...P9mN</span> <button class="copy-btn" data-copy="8Kj2ExampleWalletP9mN" style="font-size:.6rem;margin-left:.35rem">⎘</button></td>
+              <td><span class="rb rl">5 — Low</span></td>
+              <td class="mono" style="font-size:.74rem">May 2, 2025</td>
+              <td class="st-cell"><span class="badge bgold">Pending</span></td>
+              <td><div class="abtns">
+                <button class="btn btn-success btn-xs" data-action="approve-wd" data-row="wd-1">Approve</button>
+                <button class="btn btn-warn btn-xs" data-action="hold-wd" data-row="wd-1">Hold</button>
+                <button class="btn btn-danger btn-xs" data-action="reject-wd" data-row="wd-1">Reject</button>
+              </div></td>
+            </tr>
+            <tr id="wd-2">
+              <td><div class="uc"><div class="uav" style="background:linear-gradient(135deg,var(--violet),#4c1d95)">MK</div><span class="un">Maria Khan</span></div></td>
+              <td style="color:var(--green);font-weight:700">$67.00</td><td style="color:var(--gold);font-weight:700">$50.00</td>
+              <td><span class="badge bc">USDC · Solana</span></td>
+              <td><span class="mono">9Yz4...T5kJ</span> <button class="copy-btn" data-copy="9Yz4ExampleWalletT5kJ" style="font-size:.6rem;margin-left:.35rem">⎘</button></td>
+              <td><span class="rb rl">10 — Low</span></td>
+              <td class="mono" style="font-size:.74rem">May 1, 2025</td>
+              <td class="st-cell"><span class="badge bgold">Pending</span></td>
+              <td><div class="abtns">
+                <button class="btn btn-success btn-xs" data-action="approve-wd" data-row="wd-2">Approve</button>
+                <button class="btn btn-warn btn-xs" data-action="hold-wd" data-row="wd-2">Hold</button>
+                <button class="btn btn-danger btn-xs" data-action="reject-wd" data-row="wd-2">Reject</button>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══════════ SPAM ALERTS ═══════════ -->
+    <section class="dsec" id="s-spam">
+      <div class="dsh"><div><div class="dsh-t">Spam Alerts</div><div class="dsh-s">Automated risk flags requiring admin attention.</div></div></div>
+      <div class="card" style="padding:1.15rem;margin-bottom:1.4rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+        <span style="font-size:.79rem;color:var(--t3);font-weight:600">Risk Score System:</span>
+        <span class="rb rl">0–19: Low</span><span class="rb rr">20–49: Review</span><span class="rb rh">50–79: High Risk</span><span class="rb rs">80+: Spam</span>
+      </div>
+      <div class="spg">
+        <div class="spa card"><div class="spa-t">🌐 Repeat IP Detected</div><div class="spa-d">IP 95.188.143.22 shared by 3 accounts: Iqbal Hossain, Rafi Ahmed, Shuvo Islam. Potential multi-account abuse.</div><div class="spa-sc">+20 (Repeat IP) · +50 (3+ accounts same IP)</div><div style="margin-top:.7rem;display:flex;gap:.45rem"><button class="btn btn-danger btn-xs" data-action="flag-users">Flag Users</button><button class="btn btn-ghost btn-xs" data-action="dismiss-alert">Dismiss</button></div></div>
+        <div class="spa card"><div class="spa-t">📱 Same Device Fingerprint</div><div class="spa-d">Device fingerprint E9C3B shared between Rafi Ahmed and Shuvo Islam — both registered from the same physical device.</div><div class="spa-sc">+60 (Repeat device fingerprint)</div><div style="margin-top:.7rem;display:flex;gap:.45rem"><button class="btn btn-danger btn-xs" data-action="flag-users">Flag Users</button><button class="btn btn-ghost btn-xs" data-action="dismiss-alert">Dismiss</button></div></div>
+        <div class="spa card"><div class="spa-t">💰 Duplicate Payout Wallet</div><div class="spa-d">Shuvo Islam's payout wallet matches an existing account. Potential reward farming via multiple accounts.</div><div class="spa-sc">+100 (Duplicate payout wallet)</div><div style="margin-top:.7rem;display:flex;gap:.45rem"><button class="btn btn-danger btn-xs" data-action="flag-users">Ban User</button><button class="btn btn-ghost btn-xs" data-action="dismiss-alert">Dismiss</button></div></div>
+        <div class="spa card"><div class="spa-t">⚡ Tasks Completed Too Fast</div><div class="spa-d">Shuvo Islam completed 9 tasks in under 2 hours — avg 13 min per task. Insufficient time to complete required work.</div><div class="spa-sc">+20 per instance (Completed too fast)</div><div style="margin-top:.7rem;display:flex;gap:.45rem"><button class="btn btn-danger btn-xs" data-action="flag-users">Flag &amp; Review</button><button class="btn btn-ghost btn-xs" data-action="dismiss-alert">Dismiss</button></div></div>
+      </div>
+      <div class="card" style="padding:1.5rem">
+        <div style="font-family:var(--fd);font-size:.92rem;font-weight:700;color:var(--t1);margin-bottom:1rem">📋 Risk Score Guide</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem">
+          <div style="display:flex;justify-content:space-between;padding:.48rem;border-radius:4px;background:var(--surface)"><span style="font-size:.81rem;color:var(--t3)">Repeat IP</span><span class="badge bgold">+20</span></div>
+          <div style="display:flex;justify-content:space-between;padding:.48rem;border-radius:4px;background:var(--surface)"><span style="font-size:.81rem;color:var(--t3)">Same IP 3+ accounts</span><span class="badge bor">+50</span></div>
+          <div style="display:flex;justify-content:space-between;padding:.48rem;border-radius:4px;background:var(--surface)"><span style="font-size:.81rem;color:var(--t3)">Same device fingerprint</span><span class="badge br">+60</span></div>
+          <div style="display:flex;justify-content:space-between;padding:.48rem;border-radius:4px;background:var(--surface)"><span style="font-size:.81rem;color:var(--t3)">Same payout wallet</span><span class="badge br">+100</span></div>
+          <div style="display:flex;justify-content:space-between;padding:.48rem;border-radius:4px;background:var(--surface)"><span style="font-size:.81rem;color:var(--t3)">Same phone number</span><span class="badge br">+100</span></div>
+          <div style="display:flex;justify-content:space-between;padding:.48rem;border-radius:4px;background:var(--surface)"><span style="font-size:.81rem;color:var(--t3)">Same email</span><span class="badge br">+100</span></div>
+          <div style="display:flex;justify-content:space-between;padding:.48rem;border-radius:4px;background:var(--surface)"><span style="font-size:.81rem;color:var(--t3)">Completed too fast</span><span class="badge bgold">+20</span></div>
+          <div style="display:flex;justify-content:space-between;padding:.48rem;border-radius:4px;background:var(--surface)"><span style="font-size:.81rem;color:var(--t3)">Duplicate screenshot</span><span class="badge br">+70</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ SETTINGS ═══════════ -->
+    <section class="dsec" id="s-settings">
+      <div class="dsh"><div><div class="dsh-t">Platform Settings</div><div class="dsh-s">Control all platform behaviors, fees, and crypto policies.</div></div><button class="btn btn-p btn-sm" data-action="save-settings">💾 Save Settings</button></div>
+      <div class="setg">
+        <div class="set-grp card">
+          <div class="set-grp-t">👤 Registration</div>
+          <div class="set-row"><div><div class="set-n">Registration Fee Enabled</div><div class="set-d">Charge users a fee to register</div></div><label class="tog"><input type="checkbox" id="rFeeToggle"/><span class="tog-sl"></span></label></div>
+          <div id="rFeePanel" style="display:none">
+            <div class="set-row"><div><div class="set-n">Fee Mode</div></div><select class="fs"><option>Free</option><option>One-Time Fee</option><option>Refundable Deposit</option></select></div>
+            <div class="set-row"><div><div class="set-n">Current Registration Fee ($)</div></div><input type="number" class="set-inp" value="2.00" min="0" step="0.01"/></div>
+          </div>
+          <div class="set-row"><div><div class="set-n">Admin Approval Required</div><div class="set-d">All users need manual approval</div></div><label class="tog"><input type="checkbox" checked/><span class="tog-sl"></span></label></div>
+        </div>
+        <div class="set-grp card">
+          <div class="set-grp-t">📋 Task &amp; Reward Limits</div>
+          <div class="set-row"><div><div class="set-n">Daily Task Limit (Per User)</div><div class="set-d">Rolling 24-hour window</div></div><input type="number" class="set-inp" value="10" min="1"/></div>
+          <div class="set-row"><div><div class="set-n">Custom Trusted User Limit</div><div class="set-d">Allow higher limits for trusted users</div></div><label class="tog"><input type="checkbox" id="cLimitToggle" checked/><span class="tog-sl"></span></label></div>
+          <div id="cLimitPanel"><div class="set-row"><div><div class="set-n">Trusted User Custom Limit</div></div><select class="fs"><option>20</option><option>30</option><option>50</option><option>Unlimited</option></select></div></div>
+          <div class="set-row"><div><div class="set-n">Payout Hold Period (hours)</div><div class="set-d">Time before rewards are withdrawable</div></div><input type="number" class="set-inp" value="72" min="0"/></div>
+          <div class="set-row"><div><div class="set-n">First Payout Delay (days)</div><div class="set-d">New user's first withdrawal delay</div></div><input type="number" class="set-inp" value="7" min="0"/></div>
+          <div class="set-row"><div><div class="set-n">Minimum Withdrawal ($)</div></div><input type="number" class="set-inp" value="5.00" min="0" step="0.01"/></div>
+        </div>
+        <div class="set-grp card">
+          <div class="set-grp-t">💳 Crypto Settings</div>
+          <div class="set-row"><div><div class="set-n">Accepted Coin</div></div><select class="fs"><option selected>USDC</option><option>USDT</option><option>SOL</option></select></div>
+          <div class="set-row"><div><div class="set-n">Accepted Network</div></div><select class="fs"><option selected>Solana</option><option>Ethereum</option><option>BSC</option><option>Tron</option></select></div>
+          <div class="set-row" style="flex-direction:column;align-items:flex-start;gap:.5rem">
+            <div class="set-n">Company Wallet Address</div>
+            <input type="text" class="finput" value="ALA8ep2VYdkbWNCvwZxgQoYD5FMVDkRwYVB4Q9ML1YUG" style="font-family:var(--fm);font-size:.74rem"/>
+            <button class="copy-btn" data-copy="ALA8ep2VYdkbWNCvwZxgQoYD5FMVDkRwYVB4Q9ML1YUG">⎘ Copy Wallet</button>
+          </div>
+        </div>
+        <div class="set-grp card">
+          <div class="set-grp-t">💰 Payout Control</div>
+          <div class="set-row"><div><div class="set-n">Manual Payout Required</div><div class="set-d">Admin approves each withdrawal</div></div><label class="tog"><input type="checkbox" checked/><span class="tog-sl"></span></label></div>
+          <div class="set-row"><div><div class="set-n">Wallet Change Lockout</div><div class="set-d">Lock withdrawals 24h after wallet change</div></div><label class="tog"><input type="checkbox" checked/><span class="tog-sl"></span></label></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ USER DASHBOARD PREVIEW ═══════════ -->
+    <section class="dsec" id="s-user-dash">
+      <div class="dsh"><div><div class="dsh-t">User Dashboard Preview</div><div class="dsh-s">What an approved user sees when they log in.</div></div><span class="badge bg">Iqbal Hossain · Normal User</span></div>
+      <div class="udg">
+        <!-- left panel -->
+        <div>
+          <div class="upc card">
+            <div class="upav">IH</div>
+            <div class="upn">Iqbal Hossain</div>
+            <div style="font-size:.79rem;color:var(--t3);margin-bottom:.45rem">iqbal@example.com</div>
+            <span class="badge bg">Approved</span> <span class="badge bc" style="margin-left:.35rem">Normal User</span>
+          </div>
+          <div class="card" style="padding:1.2rem;margin-bottom:.95rem">
+            <div style="display:flex;flex-direction:column;gap:.7rem">
+              <div><div style="font-family:var(--fm);font-size:.59rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t4)">Pending Balance</div><div style="font-family:var(--fd);font-size:1.35rem;font-weight:700;color:var(--gold)">$6.50</div><div style="font-size:.73rem;color:var(--t4)">Hold period active (72h)</div></div>
+              <div style="border-top:1px solid var(--b2);padding-top:.7rem"><div style="font-family:var(--fm);font-size:.59rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t4)">Withdrawable Balance</div><div style="font-family:var(--fd);font-size:1.35rem;font-weight:700;color:var(--green)">$12.00</div></div>
+            </div>
+          </div>
+          <div class="pb-wrap card" style="margin-bottom:.95rem">
+            <div class="pb-lbl"><span>Daily Tasks</span><span style="color:var(--cyan)">3 / 10</span></div>
+            <div class="pb-track"><div class="pb-fill" data-w="30"></div></div>
+            <div style="font-size:.71rem;color:var(--t4);margin-top:.38rem">Resets in 18h 22m</div>
+          </div>
+          <div class="card" style="padding:1.2rem">
+            <div style="font-weight:700;color:var(--t1);font-size:.88rem;margin-bottom:.95rem">💸 Request Withdrawal</div>
+            <div class="fg" style="margin-bottom:.7rem"><label class="flabel">Amount ($)</label><input type="number" class="finput" value="12.00" placeholder="Min $5.00"/></div>
+            <div class="fg" style="margin-bottom:.7rem"><label class="flabel">Wallet (USDC · Solana)</label><input type="text" class="finput" placeholder="Your Solana wallet" style="font-family:var(--fm);font-size:.74rem"/></div>
+            <button class="btn btn-g btn-sm" data-action="request-wd" style="width:100%;justify-content:center">Request Withdrawal</button>
+          </div>
+        </div>
+        <!-- right: tasks -->
+        <div>
+          <div style="margin-bottom:1rem"><div style="font-weight:700;color:var(--t1);margin-bottom:.35rem">Available Tasks</div><div style="font-size:.81rem;color:var(--t3)">Showing tasks you are eligible for. Max 10 per 24h.</div></div>
+          <div class="tcg">
+            <div class="tcard card">
+              <div class="tcard-img">🌐</div>
+              <div class="tcard-n">Visit Website &amp; Upload Screenshot</div>
+              <div class="tcard-d">Visit the linked page and upload a full-page screenshot as proof of visit.</div>
+              <div class="tcard-r">$0.50</div>
+              <div class="tcard-f"><div><span class="badge bc" style="font-size:.6rem">Public</span> <span class="badge bgr" style="font-size:.6rem">Screenshot</span></div><span style="font-size:.71rem;color:var(--t4)">Jun 30</span></div>
+              <div style="display:flex;gap:.45rem;margin-top:.7rem">
+                <button class="btn btn-p btn-xs" data-action="start-task" style="flex:1;justify-content:center">Start Task</button>
+                <button class="btn btn-ghost btn-xs" data-action="submit-proof" style="flex:1;justify-content:center">Submit Proof</button>
+              </div>
+            </div>
+            <div class="tcard card" style="opacity:.7">
+              <div class="tcard-img">⭐</div>
+              <div class="tcard-n">High Value Feedback Task</div>
+              <div class="tcard-d">Provide detailed product feedback. Trusted &amp; VIP users only.</div>
+              <div class="tcard-r" style="color:var(--t3)">$5.00</div>
+              <div class="tcard-f"><span class="badge bv" style="font-size:.6rem">Trusted Only</span><span style="font-size:.71rem;color:var(--t4)">May 31</span></div>
+              <div style="margin-top:.7rem"><button class="btn btn-ghost btn-xs" disabled style="width:100%;justify-content:center;cursor:not-allowed;opacity:.5">🔒 Trusted Level Required</button></div>
+            </div>
+          </div>
+          <!-- proof upload -->
+          <div class="card" style="padding:1.5rem;margin-top:1rem">
+            <div style="font-weight:700;color:var(--t1);margin-bottom:.95rem">📸 Submit Task Proof</div>
+            <div class="fg"><label class="flabel">Select Task</label><select class="fselect"><option>Visit Website and Upload Screenshot — $0.50</option></select></div>
+            <div class="fg"><label class="flabel">Upload Screenshot Proof</label>
+              <div class="fu"><input type="file" accept="image/*" data-prev="prevProof"/><div class="fu-ico">📸</div><div class="fu-txt">Upload your proof screenshot</div></div>
+              <img id="prevProof" class="fu-preview" alt="Proof preview"/>
+            </div>
+            <button class="btn btn-p" data-action="submit-proof" style="width:100%;justify-content:center">📤 Submit Proof</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ CLIENT DASHBOARD PREVIEW ═══════════ -->
+    <section class="dsec" id="s-client-dash">
+      <div class="dsh"><div><div class="dsh-t">Client Dashboard Preview</div><div class="dsh-s">What a campaign client sees and can do.</div></div><span class="badge bgold">ABC Media · Client</span></div>
+      <div class="cdg">
+        <!-- Create campaign form -->
+        <div class="card" style="padding:1.75rem">
+          <div style="font-family:var(--fd);font-size:.98rem;font-weight:700;color:var(--t1);margin-bottom:1.4rem">📋 Create New Campaign</div>
+          <div class="fg"><label class="flabel">Campaign Name *</label><input type="text" class="finput" value="Product Promotion Q3"/></div>
+          <div class="fg"><label class="flabel">Description</label><textarea class="ftextarea" style="min-height:75px">Users visit our product page and upload a full-page screenshot as proof.</textarea></div>
+          <div class="frow">
+            <div class="fg"><label class="flabel">Campaign Budget ($)</label><input type="number" class="finput" value="250"/></div>
+            <div class="fg"><label class="flabel">Platform Fee (10%)</label><input type="text" class="finput" value="$25.00 (auto)" readonly style="color:var(--t4)"/></div>
+          </div>
+          <div style="padding:.95rem;background:var(--cyan-d);border:1px solid var(--b1);border-radius:var(--r1);margin-bottom:1.15rem">
+            <div style="display:flex;justify-content:space-between;font-size:.84rem;color:var(--t3)"><span>Campaign Budget</span><span style="color:var(--t1)">$250.00</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:.84rem;color:var(--t3)"><span>Platform Fee (10%)</span><span style="color:var(--t1)">$25.00</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:.98rem;font-weight:700;color:var(--cyan);margin-top:.45rem;padding-top:.45rem;border-top:1px solid var(--b2)"><span>Total Payable</span><span>$275.00 USDC</span></div>
+          </div>
+          <div style="font-weight:700;color:var(--t1);margin-bottom:.7rem;font-size:.86rem">💳 Payment Instructions</div>
+          <div class="wallet-box" style="margin:0 0 .7rem">
+            <div class="wl">Send USDC on Solana to:</div>
+            <div class="wa">ALA8ep2VYdkbWNCvwZxgQoYD5FMVDkRwYVB4Q9ML1YUG</div>
+            <button class="copy-btn" data-copy="ALA8ep2VYdkbWNCvwZxgQoYD5FMVDkRwYVB4Q9ML1YUG">⎘ Copy Wallet</button>
+          </div>
+          <div class="pay-warn" style="margin:.7rem 0"><span class="pw-ico">⚠️</span><p>Send only on Solana. Wrong network = lost funds.</p></div>
+          <div class="fg"><label class="flabel">TXID / Transaction Hash *</label><input type="text" class="finput" placeholder="Paste your transaction ID" style="font-family:var(--fm)"/></div>
+          <div class="fg"><label class="flabel">Payment Screenshot *</label>
+            <div class="fu"><input type="file" accept="image/*" data-prev="prevClientPay"/><div class="fu-ico">🖼️</div><div class="fu-txt">Upload payment screenshot</div></div>
+            <img id="prevClientPay" class="fu-preview" alt="Preview"/>
+          </div>
+          <button class="btn btn-p" data-action="submit-campaign" style="width:100%;justify-content:center">📤 Submit for Review</button>
+        </div>
+        <!-- Status + timeline -->
+        <div>
+          <div class="card" style="padding:1.65rem;margin-bottom:1.35rem">
+            <div style="font-family:var(--fd);font-size:.98rem;font-weight:700;color:var(--t1);margin-bottom:1.15rem">🚀 Active Campaign Status</div>
+            <div style="margin-bottom:1rem"><div style="font-family:var(--fd);font-size:1.08rem;font-weight:700;color:var(--t1)">Product Promotion Campaign</div><span class="badge bg" style="margin-top:.3rem">Active</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
+              <div style="padding:.72rem;background:var(--surface);border-radius:var(--r1)"><div style="font-family:var(--fm);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t4)">Budget</div><div style="font-weight:700;color:var(--gold)">$250 USDC</div></div>
+              <div style="padding:.72rem;background:var(--surface);border-radius:var(--r1)"><div style="font-family:var(--fm);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t4)">Spent</div><div style="font-weight:700;color:var(--cyan)">$70.00</div></div>
+              <div style="padding:.72rem;background:var(--surface);border-radius:var(--r1)"><div style="font-family:var(--fm);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t4)">Approved</div><div style="font-weight:700;color:var(--green)">140</div></div>
+              <div style="padding:.72rem;background:var(--surface);border-radius:var(--r1)"><div style="font-family:var(--fm);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t4)">Remaining</div><div style="font-weight:700;color:var(--t1)">360 tasks</div></div>
+            </div>
+            <div class="pb-lbl"><span>Progress</span><span style="color:var(--cyan)">140 / 500</span></div>
+            <div class="pb-track"><div class="pb-fill" data-w="28"></div></div>
+          </div>
+          <div class="card" style="padding:1.65rem">
+            <div style="font-family:var(--fd);font-size:.92rem;font-weight:700;color:var(--t1);margin-bottom:1.15rem">Campaign Lifecycle</div>
+            <div class="tl-item"><div class="tl-dot done">✓</div><div><div class="tl-t">Campaign Created</div><div class="tl-d">Apr 28, 2025 — Details submitted</div></div></div>
+            <div class="tl-item"><div class="tl-dot done">✓</div><div><div class="tl-t">Payment Submitted</div><div class="tl-d">Apr 28, 2025 — 250 USDC · TXID submitted</div></div></div>
+            <div class="tl-item"><div class="tl-dot done">✓</div><div><div class="tl-t">Payment Verified by Admin</div><div class="tl-d">Apr 29, 2025 — TXID confirmed on Solana</div></div></div>
+            <div class="tl-item"><div class="tl-dot now">▶</div><div><div class="tl-t">Campaign Active — Users Working</div><div class="tl-d">May 2, 2025 — 140 tasks approved so far</div></div></div>
+            <div class="tl-item"><div class="tl-dot">○</div><div><div class="tl-t" style="color:var(--t3)">Campaign Completed</div><div class="tl-d">Pending — when 500 tasks approved</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /dc -->
+</main>
+
+<!-- USER DETAIL MODAL -->
+<div class="modal" id="uModal">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div class="modal-hd-t">User Details</div>
+      <div class="modal-x" id="mClose">✕</div>
+    </div>
+    <div class="modal-bd">
+      <div class="mig">
+        <div><div class="mfl">Full Name</div><div class="mfv" id="m-name">—</div></div>
+        <div><div class="mfl">Status</div><div id="m-status" class="badge bgold">—</div></div>
+        <div><div class="mfl">Email</div><div class="mfv mono" id="m-email">—</div></div>
+        <div><div class="mfl">Phone</div><div class="mfv mono" id="m-phone">—</div></div>
+        <div><div class="mfl">IP Address</div><div class="mfv mono" id="m-ip">—</div></div>
+        <div><div class="mfl">Device Fingerprint</div><div class="mfv mono" id="m-device">—</div></div>
+        <div><div class="mfl">Payout Wallet</div><div class="mfv mono" id="m-wallet">—</div></div>
+        <div><div class="mfl">Risk Score</div><div id="m-risk" class="rb rl">—</div></div>
+        <div><div class="mfl">Tasks (24h)</div><div class="mfv" id="m-tasks">—</div></div>
+        <div><div class="mfl">User Level</div><div class="mfv" id="m-level">—</div></div>
+        <div><div class="mfl">Joined</div><div class="mfv" id="m-joined">—</div></div>
+      </div>
+      <div style="margin-top:1rem"><div class="mfl">Admin Notes</div><div class="mfv" id="m-notes" style="padding:.75rem;background:var(--surface);border-radius:var(--r1);border:1px solid var(--b2);font-size:.83rem;line-height:1.55">—</div></div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
