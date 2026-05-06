@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FreeWork — Login</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;overflow:hidden;background:var(--void)">
+<div class="orb orb1" style="opacity:.5"></div><div class="orb orb2" style="opacity:.4"></div>
+<div style="width:100%;max-width:420px;position:relative;z-index:1">
+  <a class="logo" href="index.html" style="justify-content:center;margin-bottom:1.75rem;text-decoration:none;display:flex;align-items:center;gap:.72rem">
+    <div class="logo-mark">FW</div><span class="logo-name">FreeWork</span>
+  </a>
+  <div class="card card-p">
+    <h2 style="font-family:var(--fd);font-size:1.4rem;font-weight:700;color:var(--t1);text-align:center;margin-bottom:.3rem">Welcome Back</h2>
+    <p style="font-size:.87rem;color:var(--t3);text-align:center;margin-bottom:1.75rem">Login with your email, phone, or username.</p>
+    <div class="nbar danger" id="errBar" style="display:none">
+      <span class="nbar-ico">❌</span><span id="errMsg">Invalid credentials.</span>
+    </div>
+    <form id="loginForm">
+      <div class="fg">
+        <label class="flabel">Email / Phone / Username</label>
+        <input class="finput" id="identifier" placeholder="Enter email, phone, or username" required/>
+      </div>
+      <div class="fg">
+        <label class="flabel">Password</label>
+        <input class="finput" type="password" id="password" placeholder="Your password" required/>
+      </div>
+      <button type="submit" class="btn btn-p btn-full" id="loginBtn" style="margin-top:.5rem">🔐 Login to Platform</button>
+    </form>
+    <div style="text-align:center;margin-top:1.25rem;font-size:.83rem;color:var(--t3)">
+      Don't have an account? <a href="register.html" style="color:var(--cyan)">Register here</a>
+    </div>
+    <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--b2);font-size:.75rem;color:var(--t4);text-align:center;line-height:1.6">
+      Demo Login: <span style="font-family:var(--fm);color:var(--cyan)">worker1@example.com</span> / <span style="font-family:var(--fm);color:var(--cyan)">Worker@123</span>
+    </div>
+  </div>
+</div>
+<script src="core.js"></script>
+<script>
+if (FW.auth.session()) window.location.href = 'platform.html';
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const errBar = document.getElementById('errBar');
+  const errMsg = document.getElementById('errMsg');
+  btn.textContent = 'Logging in...'; btn.disabled = true; errBar.style.display = 'none';
+  const result = FW.auth.login(
+    document.getElementById('identifier').value.trim(),
+    document.getElementById('password').value
+  );
+  if (result.ok) {
+    window.location.href = 'platform.html';
+  } else {
+    errMsg.textContent = result.msg;
+    errBar.style.display = 'flex';
+    btn.textContent = '🔐 Login to Platform'; btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

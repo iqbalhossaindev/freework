@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FreeWork — Register</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;overflow:hidden;background:var(--void)">
+<div class="orb orb1" style="opacity:.5"></div><div class="orb orb2" style="opacity:.4"></div>
+<div style="width:100%;max-width:580px;position:relative;z-index:1">
+  <a class="logo" href="index.html" style="justify-content:center;margin-bottom:1.75rem;text-decoration:none;display:flex;align-items:center;gap:.72rem">
+    <div class="logo-mark">FW</div><span class="logo-name">FreeWork</span>
+  </a>
+  <div class="card card-p">
+    <h2 style="font-family:var(--fd);font-size:1.45rem;font-weight:700;color:var(--t1);text-align:center;margin-bottom:.3rem">Create Your Account</h2>
+    <p style="font-size:.87rem;color:var(--t3);text-align:center;margin-bottom:.75rem;line-height:1.5">Fill in your details and pay the registration fee to get started.</p>
+
+    <div class="nbar info" id="feeNotice" style="margin-bottom:1.25rem">
+      <span class="nbar-ico">💳</span>
+      <span>Registration Fee: <strong id="feeAmount">Loading...</strong> USDC · Send to wallet below. Submit your TXID &amp; screenshot.</span>
+    </div>
+
+    <div class="wallet-box" style="margin-bottom:1.25rem">
+      <div class="wl">Payment Wallet (USDC · Solana)</div>
+      <div class="wa" id="payWallet">Loading...</div>
+      <button class="copy-btn" id="copyWallet">⎘ Copy Wallet</button>
+      <div style="margin-top:.65rem;font-size:.79rem;color:var(--gold)">⚠️ Send only on Solana network. Wrong network = lost funds.</div>
+    </div>
+
+    <form id="regForm" autocomplete="off">
+      <div class="frow">
+        <div class="fg"><label class="flabel">Username *</label><input class="finput" id="username" placeholder="your_username" required/><div class="ferr" id="err-username"></div></div>
+        <div class="fg"><label class="flabel">Full Name *</label><input class="finput" id="fullName" placeholder="John Doe" required/></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label class="flabel">Email Address *</label><input class="finput" type="email" id="email" placeholder="you@email.com" required/><div class="ferr" id="err-email"></div></div>
+        <div class="fg"><label class="flabel">Phone Number *</label><input class="finput" id="phone" placeholder="+1234567890" required/><div class="ferr" id="err-phone"></div></div>
+      </div>
+      <div class="fg"><label class="flabel">Country *</label>
+        <select class="fselect" id="country" required>
+          <option value="">Select your country...</option>
+          <option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option>
+          <option>Bangladesh</option><option>Pakistan</option><option>India</option><option>Philippines</option>
+          <option>Nigeria</option><option>Ghana</option><option>Kenya</option><option>Indonesia</option>
+          <option>Malaysia</option><option>Saudi Arabia</option><option>Other</option>
+        </select>
+      </div>
+      <div class="frow">
+        <div class="fg"><label class="flabel">Password *</label><input class="finput" type="password" id="password" placeholder="Min 8 characters" required/></div>
+        <div class="fg"><label class="flabel">Confirm Password *</label><input class="finput" type="password" id="confirmPassword" placeholder="Repeat password" required/></div>
+      </div>
+      <div style="border-top:1px solid var(--b2);padding-top:1.25rem;margin-top:.5rem">
+        <div style="font-family:var(--fd);font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">💳 Payment Proof</div>
+        <div class="fg"><label class="flabel">Transaction ID / TXID *</label><input class="finput" id="txid" placeholder="Paste your transaction hash here" required style="font-family:var(--fm);font-size:.82rem"/></div>
+        <div class="fg"><label class="flabel">Payment Screenshot *</label>
+          <div class="fu"><input type="file" id="screenshot" accept="image/*" required/>
+            <div class="fu-ico">📸</div><div class="fu-txt">Click to upload payment screenshot</div>
+          </div>
+          <img id="screenshotPrev" class="fu-preview" alt="Preview"/>
+          <div class="ferr" id="err-screenshot"></div>
+        </div>
+      </div>
+      <div class="nbar warn" style="margin-top:.5rem">
+        <span class="nbar-ico">⏳</span>
+        After submitting, your registration will be reviewed manually. You will be notified once approved.
+      </div>
+      <button type="submit" class="btn btn-p btn-full" style="margin-top:1rem" id="submitBtn">📤 Submit Registration</button>
+    </form>
+  </div>
+  <div style="text-align:center;margin-top:1rem;font-size:.83rem;color:var(--t3)">Already have an account? <a href="login.html" style="color:var(--cyan)">Login here</a></div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal" id="successModal">
+  <div class="modal-box">
+    <div class="modal-bd" style="text-align:center;padding:2.5rem">
+      <div style="font-size:3.5rem;margin-bottom:1rem">🎉</div>
+      <h3 style="font-family:var(--fd);font-size:1.3rem;font-weight:700;color:var(--t1);margin-bottom:.75rem">Registration Submitted!</h3>
+      <p style="font-size:.88rem;color:var(--t3);line-height:1.65;margin-bottom:1.5rem">Your registration has been submitted for review. Our team will verify your payment and approve your account within 24 hours. You will receive a notification once reviewed.</p>
+      <a href="login.html" class="btn btn-p">Go to Login →</a>
+    </div>
+  </div>
+</div>
+
+<script src="core.js"></script>
+<script>
+// Load settings
+const s = FW.settings.get();
+document.getElementById('feeAmount').textContent = '$' + s.registrationFee;
+document.getElementById('payWallet').textContent = s.walletAddress;
+
+// Copy wallet
+document.getElementById('copyWallet').addEventListener('click', function() {
+  navigator.clipboard.writeText(s.walletAddress).catch(()=>{});
+  this.innerHTML = '✓ Copied'; this.classList.add('copied');
+  setTimeout(() => { this.innerHTML = '⎘ Copy Wallet'; this.classList.remove('copied'); }, 2000);
+});
+
+// Screenshot preview
+document.getElementById('screenshot').addEventListener('change', function() {
+  const p = document.getElementById('screenshotPrev');
+  if (this.files[0]) {
+    const r = new FileReader();
+    r.onload = e => { p.src = e.target.result; p.style.display = 'block'; };
+    r.readAsDataURL(this.files[0]);
+  }
+});
+
+// Submit
+document.getElementById('regForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+
+  const pw = document.getElementById('password').value;
+  const cpw = document.getElementById('confirmPassword').value;
+  if (pw !== cpw) {
+    alert('Passwords do not match.'); btn.textContent = '📤 Submit Registration'; btn.disabled = false; return;
+  }
+  if (pw.length < 8) {
+    alert('Password must be at least 8 characters.'); btn.textContent = '📤 Submit Registration'; btn.disabled = false; return;
+  }
+  const ss = document.getElementById('screenshot').files[0];
+  if (!ss) {
+    document.getElementById('err-screenshot').textContent = 'Payment screenshot is required.';
+    document.getElementById('err-screenshot').classList.add('show');
+    btn.textContent = '📤 Submit Registration'; btn.disabled = false; return;
+  }
+  // Read screenshot as base64
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const result = FW.users.register({
+      username: document.getElementById('username').value.trim(),
+      fullName: document.getElementById('fullName').value.trim(),
+      email: document.getElementById('email').value.trim().toLowerCase(),
+      phone: document.getElementById('phone').value.trim(),
+      country: document.getElementById('country').value,
+      password: pw,
+      txid: document.getElementById('txid').value.trim(),
+      screenshot: ev.target.result
+    });
+    if (result.ok) {
+      document.getElementById('successModal').classList.add('open');
+    } else {
+      alert(result.msg);
+      btn.textContent = '📤 Submit Registration'; btn.disabled = false;
+    }
+  };
+  reader.readAsDataURL(ss);
+});
+</script>
+</body>
+</html>

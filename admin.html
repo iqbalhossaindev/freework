@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FW Control System</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+body.admin-body{display:flex;min-height:100vh}
+.ad-sb{width:250px;height:100vh;position:fixed;left:0;top:0;background:var(--deep);border-right:1px solid var(--b2);display:flex;flex-direction:column;z-index:200;overflow-y:auto;transition:transform .3s ease}
+.ad-sb-logo{display:flex;align-items:center;gap:.65rem;padding:1.2rem;border-bottom:1px solid var(--b2)}
+.ad-sb-menu{list-style:none;padding:.65rem .55rem;flex:1}
+.ad-sb-menu li{margin-bottom:.14rem}
+.ad-sb-menu a{display:flex;align-items:center;gap:.62rem;padding:.65rem .88rem;border-radius:var(--r1);color:var(--t3);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;transition:var(--tx);cursor:pointer;text-decoration:none}
+.ad-sb-menu a:hover{background:var(--glass-h);color:var(--t1)}
+.ad-sb-menu a.active{background:var(--cyan-d);color:var(--cyan);border:1px solid var(--b1)}
+.ad-sb-badge{margin-left:auto;background:var(--red);color:#fff;font-size:.55rem;padding:.08em .42em;border-radius:10px;font-family:var(--fm)}
+.ad-sb-foot{padding:.75rem;border-top:1px solid var(--b2)}
+.ad-sb-foot a{display:flex;align-items:center;gap:.45rem;font-size:.75rem;color:var(--t4);padding:.38rem;text-decoration:none}
+.ad-sb-foot a:hover{color:var(--red)}
+.ad-main{margin-left:250px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.ad-tb{height:58px;background:var(--deep);border-bottom:1px solid var(--b2);display:flex;align-items:center;padding:0 1.75rem;gap:1rem;position:sticky;top:0;z-index:100}
+.ad-tb-title{font-family:var(--fd);font-size:.93rem;font-weight:600;color:var(--t1)}
+.ad-ham{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:.5rem}
+.ad-ham span{width:20px;height:2px;background:var(--t2);border-radius:2px}
+.ad-content{flex:1;padding:1.75rem}
+.ad-sec{display:none}
+.ad-sec.active{display:block;animation:sfade .25s ease}
+.ad-ov{display:none;position:fixed;inset:0;background:rgba(2,6,9,.7);z-index:199}
+.ad-ov.show{display:block}
+.tw{overflow-x:auto;border-radius:var(--r2);border:1px solid var(--b2)}
+table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:700px}
+thead th{padding:.75rem .9rem;text-align:left;font-family:var(--fm);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);background:var(--surface);border-bottom:1px solid var(--b2);white-space:nowrap}
+tbody td{padding:.75rem .9rem;border-bottom:1px solid var(--b2);color:var(--t2);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--glass)}
+.abtns{display:flex;gap:.28rem;flex-wrap:wrap}
+.tc2{display:flex;gap:.75rem;align-items:center;margin-bottom:.9rem;flex-wrap:wrap}
+.si{flex:1;min-width:160px;padding:.52rem .9rem;background:rgba(4,16,30,.95);border:1px solid var(--b2);border-radius:var(--r1);color:var(--t1);font-size:.83rem}
+.si:focus{border-color:var(--cyan);outline:none;box-shadow:0 0 0 2px var(--cyan-d)}
+.si::placeholder{color:var(--t4)}
+.fs{padding:.52rem .9rem;background:rgba(4,16,30,.95);border:1px solid var(--b2);border-radius:var(--r1);color:var(--t2);font-size:.81rem;cursor:pointer}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.4rem}
+.sc{padding:1.1rem}
+.sc-lbl{font-family:var(--fm);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t4);margin-bottom:.5rem}
+.sc-val{font-family:var(--fd);font-size:1.75rem;font-weight:700;color:var(--t1);line-height:1;margin-bottom:.15rem}
+.sc-sub{font-size:.7rem;color:var(--t3)}
+.setg{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.set-grp{padding:1.6rem}
+.set-grp-t{font-family:var(--fd);font-size:.88rem;font-weight:700;color:var(--t1);margin-bottom:1rem;padding-bottom:.65rem;border-bottom:1px solid var(--b2)}
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:.65rem 0;border-bottom:1px solid var(--b2);gap:1rem;flex-wrap:wrap}
+.set-row:last-child{border-bottom:none}
+.set-n{font-size:.84rem;font-weight:600;color:var(--t2)}
+.set-d{font-size:.7rem;color:var(--t4)}
+.set-inp{width:130px;padding:.38rem .65rem;background:rgba(4,16,30,.95);border:1px solid var(--b2);border-radius:var(--r1);color:var(--t1);font-size:.83rem;text-align:right}
+.set-inp:focus{border-color:var(--cyan);outline:none}
+.uc{display:flex;align-items:center;gap:.5rem}
+.uav{width:30px;height:30px;background:linear-gradient(135deg,var(--cyan),var(--violet));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0}
+.un{font-weight:600;color:var(--t1);font-size:.85rem}
+.ue{font-size:.71rem;color:var(--t3)}
+.mono{font-family:var(--fm);font-size:.71rem;color:var(--cyan)}
+.rb{display:inline-flex;align-items:center;padding:.15em .5em;border-radius:4px;font-family:var(--fm);font-size:.67rem;font-weight:700}
+.rl{background:var(--green-d);color:var(--green)}.rr{background:var(--gold-d);color:var(--gold)}.rs{background:var(--red-d);color:var(--red)}
+@media(max-width:768px){.ad-sb{transform:translateX(-100%)}.ad-sb.open{transform:translateX(0)}.ad-main{margin-left:0}.ad-ham{display:flex}.sg{grid-template-columns:1fr 1fr}.setg{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="admin-body">
+<div class="ad-ov" id="adOv"></div>
+
+<!-- ADMIN SIDEBAR -->
+<aside class="ad-sb" id="adSb">
+  <div class="ad-sb-logo">
+    <div class="logo-mark" style="width:32px;height:32px;font-size:.75rem">FW</div>
+    <div>
+      <div style="font-family:var(--fd);font-size:.9rem;font-weight:700;color:var(--t1)">Control Panel</div>
+      <div style="font-size:.65rem;color:var(--t4)">Admin System</div>
+    </div>
+  </div>
+  <ul class="ad-sb-menu">
+    <li><a href="#" data-as="overview" class="active">📊 Overview</a></li>
+    <li><a href="#" data-as="registrations">📝 Registrations <span class="ad-sb-badge" id="sbRegBadge">0</span></a></li>
+    <li><a href="#" data-as="users">👥 Users</a></li>
+    <li><a href="#" data-as="tasks">💼 Tasks</a></li>
+    <li><a href="#" data-as="upload-task">📤 Upload Task</a></li>
+    <li><a href="#" data-as="campaigns">🚀 Campaigns</a></li>
+    <li><a href="#" data-as="upload-campaign">➕ New Campaign</a></li>
+    <li><a href="#" data-as="events">⭐ Special Events</a></li>
+    <li><a href="#" data-as="create-event">✨ Create Event</a></li>
+    <li><a href="#" data-as="submissions">📸 Submissions <span class="ad-sb-badge" id="sbSubBadge">0</span></a></li>
+    <li><a href="#" data-as="deposits">💳 Deposits <span class="ad-sb-badge" id="sbDepBadge">0</span></a></li>
+    <li><a href="#" data-as="withdrawals">💸 Withdrawals <span class="ad-sb-badge" id="sbWdBadge">0</span></a></li>
+    <li><a href="#" data-as="notifications-admin">🔔 Send Notification</a></li>
+    <li><a href="#" data-as="audit">📋 Audit Log</a></li>
+    <li><a href="#" data-as="settings-admin">⚙️ Settings</a></li>
+  </ul>
+  <div class="ad-sb-foot">
+    <a href="#" id="adLogout">🚪 Logout</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="ad-main">
+  <header class="ad-tb">
+    <div class="ad-ham" id="adHam"><span></span><span></span><span></span></div>
+    <span class="ad-tb-title" id="adTbTitle">Overview</span>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:.75rem">
+      <span style="font-size:.75rem;color:var(--t4);font-family:var(--fm)">ADMIN</span>
+      <div style="width:30px;height:30px;background:linear-gradient(135deg,var(--red),var(--violet));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff">AD</div>
+    </div>
+  </header>
+
+  <div class="ad-content">
+
+    <!-- ══ OVERVIEW ══ -->
+    <section class="ad-sec active" id="as-overview">
+      <div class="sg" id="ovStats"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+        <div class="card card-p">
+          <div style="font-family:var(--fd);font-size:.9rem;font-weight:700;color:var(--t1);margin-bottom:1rem">⚡ Pending Actions</div>
+          <div id="pendingActions" style="display:flex;flex-direction:column;gap:.6rem"></div>
+        </div>
+        <div class="card card-p">
+          <div style="font-family:var(--fd);font-size:.9rem;font-weight:700;color:var(--t1);margin-bottom:1rem">📊 Quick Stats</div>
+          <div id="quickStats" style="display:flex;flex-direction:column;gap:.5rem"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ REGISTRATIONS ══ -->
+    <section class="ad-sec" id="as-registrations">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
+        <div><div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1)">Registration Requests</div><div style="font-size:.82rem;color:var(--t3)">Review and approve new user registrations</div></div>
+      </div>
+      <div class="tc2">
+        <input type="text" class="si" placeholder="Search registrations..." id="regSearch"/>
+        <select class="fs" id="regFilter"><option value="">All Statuses</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select>
+      </div>
+      <div class="tw card" style="padding:0"><table id="regTable">
+        <thead><tr><th>User</th><th>Contact</th><th>Country</th><th>TXID</th><th>Screenshot</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+        <tbody id="regBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ══ USERS ══ -->
+    <section class="ad-sec" id="as-users">
+      <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:1.25rem">User Management</div>
+      <div class="tc2">
+        <input type="text" class="si" placeholder="Search users..." id="userSearch"/>
+        <select class="fs" id="userTierFilter"><option value="">All Tiers</option><option value="demo">Demo</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="diamond">Diamond</option></select>
+        <select class="fs" id="userStatusFilter"><option value="">All Statuses</option><option value="approved">Approved</option><option value="pending">Pending</option><option value="rejected">Rejected</option><option value="suspended">Suspended</option></select>
+      </div>
+      <div class="tw card" style="padding:0"><table id="userTable">
+        <thead><tr><th>User</th><th>Tier</th><th>Balance</th><th>Tasks</th><th>Approved</th><th>Eligible</th><th>Last Task</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="userBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ══ TASKS ══ -->
+    <section class="ad-sec" id="as-tasks">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
+        <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1)">Task Management</div>
+        <button class="btn btn-p btn-sm" onclick="adNav('upload-task')">+ Upload New Task</button>
+      </div>
+      <div class="tw card" style="padding:0"><table>
+        <thead><tr><th>Title</th><th>Tier</th><th>Type</th><th>Reward</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+        <tbody id="taskAdminBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ══ UPLOAD TASK ══ -->
+    <section class="ad-sec" id="as-upload-task">
+      <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:1.25rem">Upload New Task</div>
+      <div class="card card-p" style="max-width:700px">
+        <div id="taskUploadSuccess" class="nbar success" style="display:none;margin-bottom:1rem"><span class="nbar-ico">✅</span><span>Task created successfully!</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1rem">
+          <div class="fg"><label class="flabel">Task Title *</label><input class="finput" id="tuTitle" placeholder="Task title"/></div>
+          <div class="fg"><label class="flabel">Reward Amount ($) *</label><input class="finput" type="number" id="tuReward" placeholder="0.50" step="0.01" min="0"/></div>
+        </div>
+        <div class="fg"><label class="flabel">Description *</label><textarea class="ftextarea" id="tuDesc" placeholder="Describe exactly what workers need to do..."></textarea></div>
+        <div class="fg"><label class="flabel">Task Link</label><input class="finput" id="tuLink" placeholder="https://..."/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1rem">
+          <div class="fg"><label class="flabel">Tier *</label>
+            <select class="fselect" id="tuTier"><option value="all">All Tiers</option><option value="demo">Demo</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="diamond">Diamond</option></select>
+          </div>
+          <div class="fg"><label class="flabel">Task Type *</label>
+            <select class="fselect" id="tuType" onchange="toggleAssigned()">
+              <option value="normal">Normal Campaign</option>
+              <option value="new-user">New User Campaign</option>
+              <option value="specific">Specific Person</option>
+              <option value="shared">Shared Campaign</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg"><label class="flabel">Max Completions (0=unlimited)</label><input class="finput" type="number" id="tuMax" value="0" min="0"/></div>
+        <div class="fg" id="tuAssignedWrap" style="display:none">
+          <label class="flabel">Assign to User *</label>
+          <select class="fselect" id="tuAssigned"><option value="">Select user...</option></select>
+        </div>
+        <div style="display:flex;gap:.75rem;margin-top:.5rem">
+          <button class="btn btn-p" id="tuSubmitBtn">📤 Create Task</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('as-upload-task').querySelectorAll('input,select,textarea').forEach(el=>el.tagName==='SELECT'?el.selectedIndex=0:el.value='');document.getElementById('taskUploadSuccess').style.display='none'">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CAMPAIGNS ══ -->
+    <section class="ad-sec" id="as-campaigns">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
+        <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1)">Campaigns</div>
+        <button class="btn btn-p btn-sm" onclick="adNav('upload-campaign')">+ New Campaign</button>
+      </div>
+      <div class="tw card" style="padding:0"><table>
+        <thead><tr><th>Title</th><th>Type</th><th>Tier</th><th>Reward</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+        <tbody id="campAdminBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ══ NEW CAMPAIGN ══ -->
+    <section class="ad-sec" id="as-upload-campaign">
+      <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:1.25rem">Create New Campaign</div>
+      <div class="card card-p" style="max-width:700px">
+        <div id="campSuccess" class="nbar success" style="display:none;margin-bottom:1rem"><span class="nbar-ico">✅</span><span>Campaign created!</span></div>
+        <div class="fg"><label class="flabel">Campaign Title *</label><input class="finput" id="cpTitle" placeholder="Campaign title"/></div>
+        <div class="fg"><label class="flabel">Description *</label><textarea class="ftextarea" id="cpDesc" placeholder="Campaign description..."></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1rem">
+          <div class="fg"><label class="flabel">Type *</label>
+            <select class="fselect" id="cpType" onchange="toggleCampAssigned()">
+              <option value="normal">Normal Campaign</option>
+              <option value="new-user">New User Campaign</option>
+              <option value="specific">Specific Person</option>
+              <option value="shared">Shared Campaign</option>
+            </select>
+          </div>
+          <div class="fg"><label class="flabel">Tier</label>
+            <select class="fselect" id="cpTier"><option value="all">All Tiers</option><option value="demo">Demo</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="diamond">Diamond</option></select>
+          </div>
+        </div>
+        <div class="fg"><label class="flabel">Reward ($)</label><input class="finput" type="number" id="cpReward" value="0" step="0.01" min="0"/></div>
+        <div class="fg" id="cpAssignedWrap" style="display:none">
+          <label class="flabel">Assign to User *</label>
+          <select class="fselect" id="cpAssigned"><option value="">Select user...</option></select>
+        </div>
+        <button class="btn btn-p" id="cpSubmitBtn">🚀 Create Campaign</button>
+      </div>
+    </section>
+
+    <!-- ══ SPECIAL EVENTS ══ -->
+    <section class="ad-sec" id="as-events">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
+        <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1)">Special Events</div>
+        <button class="btn btn-p btn-sm" onclick="adNav('create-event')">✨ Create Event</button>
+      </div>
+      <div class="tw card" style="padding:0"><table>
+        <thead><tr><th>Title</th><th>Assigned User</th><th>Reward</th><th>Status</th><th>Submission</th><th>End Date</th><th>Actions</th></tr></thead>
+        <tbody id="evAdminBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ══ CREATE EVENT ══ -->
+    <section class="ad-sec" id="as-create-event">
+      <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:1.25rem">Create Special Event</div>
+      <div class="card card-p" style="max-width:700px">
+        <div id="evSuccess" class="nbar success" style="display:none;margin-bottom:1rem"><span class="nbar-ico">✅</span><span>Special event created and user notified!</span></div>
+        <div class="fg"><label class="flabel">Event Title *</label><input class="finput" id="evTitle" placeholder="Special event title"/></div>
+        <div class="fg"><label class="flabel">Description *</label><textarea class="ftextarea" id="evDesc" placeholder="Describe the special event task..."></textarea></div>
+        <div class="fg"><label class="flabel">Event Link</label><input class="finput" id="evLink" placeholder="https://..."/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1rem">
+          <div class="fg"><label class="flabel">Reward Amount ($) *</label><input class="finput" type="number" id="evReward" placeholder="10.00" step="0.01" min="0"/></div>
+          <div class="fg"><label class="flabel">Assign to User *</label>
+            <select class="fselect" id="evAssigned"><option value="">Select user...</option></select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1rem">
+          <div class="fg"><label class="flabel">Start Date</label><input class="finput" type="date" id="evStart"/></div>
+          <div class="fg"><label class="flabel">End Date</label><input class="finput" type="date" id="evEnd"/></div>
+        </div>
+        <button class="btn btn-p" id="evSubmitBtn">⭐ Create Special Event</button>
+      </div>
+    </section>
+
+    <!-- ══ SUBMISSIONS ══ -->
+    <section class="ad-sec" id="as-submissions">
+      <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:1.25rem">Task Submissions</div>
+      <div class="tc2">
+        <input type="text" class="si" placeholder="Search submissions..." id="subSearch"/>
+        <select class="fs" id="subFilter"><option value="">All Statuses</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select>
+      </div>
+      <div class="tw card" style="padding:0"><table>
+        <thead><tr><th>User</th><th>Task</th><th>Reward</th><th>Note</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+        <tbody id="subBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ══ DEPOSITS ══ -->
+    <section class="ad-sec" id="as-deposits">
+      <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:1.25rem">Deposit Requests</div>
+      <div class="tw card" style="padding:0"><table>
+        <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>TXID</th><th>Screenshot</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody id="depBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ══ WITHDRAWALS ══ -->
+    <section class="ad-sec" id="as-withdrawals">
+      <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:1.25rem">Withdrawal Requests</div>
+      <div class="tw card" style="padding:0"><table>
+        <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Account</th><th>Tasks Appr.</th><th>Eligible</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody id="wdBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ══ NOTIFICATIONS ══ -->
+    <section class="ad-sec" id="as-notifications-admin">
+      <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:1.25rem">Send Notification</div>
+      <div class="card card-p" style="max-width:580px">
+        <div id="notifSuccess" class="nbar success" style="display:none;margin-bottom:1rem"><span class="nbar-ico">✅</span><span>Notification sent successfully!</span></div>
+        <div class="fg"><label class="flabel">Send To *</label>
+          <select class="fselect" id="notifTarget" onchange="toggleNotifUser()">
+            <option value="all">All Active Users</option>
+            <option value="tier">Specific Tier</option>
+            <option value="user">Specific User</option>
+          </select>
+        </div>
+        <div class="fg" id="notifTierWrap" style="display:none">
+          <label class="flabel">Select Tier</label>
+          <select class="fselect" id="notifTier"><option value="demo">Demo</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="diamond">Diamond</option></select>
+        </div>
+        <div class="fg" id="notifUserWrap" style="display:none">
+          <label class="flabel">Select User</label>
+          <select class="fselect" id="notifUser"><option value="">Select user...</option></select>
+        </div>
+        <div class="fg"><label class="flabel">Notification Title *</label><input class="finput" id="notifTitle" placeholder="e.g. New Tasks Available!"/></div>
+        <div class="fg"><label class="flabel">Message *</label><textarea class="ftextarea" id="notifMsg" placeholder="Notification message..."></textarea></div>
+        <div class="fg"><label class="flabel">Type</label>
+          <select class="fselect" id="notifType"><option value="info">Info</option><option value="task">Task</option><option value="deposit">Deposit</option><option value="withdrawal">Withdrawal</option><option value="account">Account</option><option value="special">Special</option><option value="balance">Balance</option></select>
+        </div>
+        <button class="btn btn-p" id="notifSendBtn">📢 Send Notification</button>
+      </div>
+    </section>
+
+    <!-- ══ AUDIT LOG ══ -->
+    <section class="ad-sec" id="as-audit">
+      <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:1.25rem">Audit Log</div>
+      <div class="tw card" style="padding:0"><table>
+        <thead><tr><th>Action</th><th>Performed By</th><th>Target User</th><th>Details</th><th>Timestamp</th></tr></thead>
+        <tbody id="auditBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ══ SETTINGS ══ -->
+    <section class="ad-sec" id="as-settings-admin">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
+        <div style="font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--t1)">Platform Settings</div>
+        <button class="btn btn-p btn-sm" id="saveSettingsBtn">💾 Save Settings</button>
+      </div>
+      <div class="setg">
+        <div class="set-grp card">
+          <div class="set-grp-t">💳 Registration & Fees</div>
+          <div class="set-row"><div><div class="set-n">Registration Fee ($)</div><div class="set-d">Amount users must pay to register</div></div><input type="number" class="set-inp" id="sRegFee" step="0.01" min="0"/></div>
+          <div class="set-row"><div><div class="set-n">Accepted Coin</div></div><input type="text" class="set-inp" id="sCoin"/></div>
+          <div class="set-row"><div><div class="set-n">Accepted Network</div></div><input type="text" class="set-inp" id="sNetwork"/></div>
+          <div class="set-row" style="flex-direction:column;align-items:flex-start;gap:.5rem">
+            <div class="set-n">Company Wallet Address</div>
+            <input type="text" class="finput" id="sWallet" style="font-family:var(--fm);font-size:.74rem;width:100%"/>
+          </div>
+        </div>
+        <div class="set-grp card">
+          <div class="set-grp-t">📋 Tasks & Limits</div>
+          <div class="set-row"><div><div class="set-n">Max Tasks Per User</div><div class="set-d">Tasks per cycle (default 10)</div></div><input type="number" class="set-inp" id="sMaxTasks" min="1"/></div>
+          <div class="set-row"><div><div class="set-n">Task Reset Hours</div><div class="set-d">Hours before reset allowed</div></div><input type="number" class="set-inp" id="sResetHours" min="1"/></div>
+          <div class="set-row"><div><div class="set-n">Withdrawal Hold Hours</div></div><input type="number" class="set-inp" id="sWdHold" min="0"/></div>
+          <div class="set-row"><div><div class="set-n">Minimum Withdrawal ($)</div></div><input type="number" class="set-inp" id="sMinWd" step="0.01" min="0"/></div>
+          <div class="set-row"><div><div class="set-n">Platform Name</div></div><input type="text" class="set-inp" id="sPlatName"/></div>
+          <div class="set-row"><div><div class="set-n">Support Email</div></div><input type="text" class="set-inp" id="sSupportEmail" style="width:200px"/></div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /ad-content -->
+</main>
+
+<!-- User Detail Modal -->
+<div class="modal" id="userModal">
+  <div class="modal-box" style="max-width:640px">
+    <div class="modal-hd"><span class="modal-hd-t" id="umTitle">User Details</span><div class="modal-x" id="umClose">✕</div></div>
+    <div class="modal-bd" id="umBody"></div>
+  </div>
+</div>
+
+<!-- Reject / Action Modal -->
+<div class="modal" id="actionModal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-hd"><span class="modal-hd-t" id="amTitle">Confirm Action</span><div class="modal-x" id="amClose">✕</div></div>
+    <div class="modal-bd">
+      <div class="fg"><label class="flabel" id="amLabel">Reason (optional)</label><textarea class="ftextarea" id="amReason" style="min-height:70px"></textarea></div>
+      <button class="btn btn-danger btn-full" id="amConfirm">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script src="core.js"></script>
+<script>
+'use strict';
+if(!FW.auth.requireAdmin()) throw new Error('Unauthorized');
+
+function showToast(msg,type='info'){
+  let w=document.querySelector('.toast-wrap');
+  if(!w){w=document.createElement('div');w.className='toast-wrap';document.body.appendChild(w);}
+  const icons={success:'✅',error:'❌',warning:'⚠️',info:'💡'};
+  const el=document.createElement('div');el.className=`toast ${type}`;
+  el.innerHTML=`<span>${icons[type]||'💡'}</span><span>${msg}</span>`;
+  w.appendChild(el);
+  setTimeout(()=>{el.classList.add('hiding');setTimeout(()=>el.remove(),280);},3500);
+}
+
+function fmt(n){ return '$'+(+n||0).toFixed(2); }
+function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+function tierLabel(t){ const m={demo:'Demo',silver:'Silver',gold:'Gold',diamond:'Diamond',all:'All'}; return m[t]||t||'—'; }
+function tierBadge(t){ const m={demo:'bgr',silver:'bgr',gold:'bgold',diamond:'bv',all:'bc'}; return `<span class="badge ${m[t]||'bgr'}">${tierLabel(t)}</span>`; }
+function statusBadge(s){ const m={approved:'bg',rejected:'br',pending:'bgold',suspended:'bor',active:'bg',completed:'bg',cancelled:'br',expired:'bgold'}; return `<span class="badge ${m[s]||'bgr'}">${s}</span>`; }
+
+function adNav(name){
+  document.querySelectorAll('.ad-sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ad-sb-menu a').forEach(a=>a.classList.remove('active'));
+  const sec=document.getElementById('as-'+name);
+  if(sec) sec.classList.add('active');
+  const link=document.querySelector(`.ad-sb-menu a[data-as="${name}"]`);
+  if(link) link.classList.add('active');
+  document.getElementById('adTbTitle').textContent = link ? link.textContent.trim().replace(/\d+$/,'') : name;
+  document.getElementById('adSb').classList.remove('open');
+  document.getElementById('adOv').classList.remove('show');
+  const renders = {overview:renderOverview,registrations:renderRegistrations,users:renderUsers,'upload-task':renderUploadTask,tasks:renderTasks,campaigns:renderCampaigns,'upload-campaign':renderUploadCamp,events:renderEvents,'create-event':renderCreateEvent,submissions:renderSubmissions,deposits:renderDeposits,withdrawals:renderWithdrawals,'notifications-admin':renderNotifAdmin,audit:renderAudit,'settings-admin':renderSettings};
+  if(renders[name]) renders[name]();
+}
+
+function renderOverview(){
+  const users=FW.users.all(), subs=FW.submissions.all(), deps=FW.deposits.all(), wds=FW.withdrawals.all();
+  const pending=users.filter(u=>u.status==='pending').length;
+  const pendSubs=subs.filter(s=>s.status==='pending').length;
+  const pendDeps=deps.filter(d=>d.status==='pending').length;
+  const pendWds=wds.filter(w=>w.status==='pending').length;
+  document.getElementById('sbRegBadge').textContent=pending;
+  document.getElementById('sbSubBadge').textContent=pendSubs;
+  document.getElementById('sbDepBadge').textContent=pendDeps;
+  document.getElementById('sbWdBadge').textContent=pendWds;
+  document.getElementById('ovStats').innerHTML=`
+    <div class="sc card"><div class="sc-lbl">Total Users</div><div class="sc-val">${users.length}</div><div class="sc-sub">${users.filter(u=>u.status==='approved').length} approved</div></div>
+    <div class="sc card"><div class="sc-lbl">Pending Registrations</div><div class="sc-val" style="color:var(--gold)">${pending}</div><div class="sc-sub">Needs review</div></div>
+    <div class="sc card"><div class="sc-lbl">Pending Submissions</div><div class="sc-val" style="color:var(--cyan)">${pendSubs}</div><div class="sc-sub">Task proofs</div></div>
+    <div class="sc card"><div class="sc-lbl">Pending Deposits</div><div class="sc-val" style="color:var(--green)">${pendDeps}</div><div class="sc-sub">Need approval</div></div>
+    <div class="sc card"><div class="sc-lbl">Pending Withdrawals</div><div class="sc-val" style="color:var(--violet)">${pendWds}</div><div class="sc-sub">Need processing</div></div>
+    <div class="sc card"><div class="sc-lbl">Total Tasks</div><div class="sc-val">${FW.tasks.all().length}</div><div class="sc-sub">${FW.tasks.all().filter(t=>t.status==='active').length} active</div></div>
+    <div class="sc card"><div class="sc-lbl">Total Campaigns</div><div class="sc-val">${FW.campaigns.all().length}</div><div class="sc-sub">All campaigns</div></div>
+    <div class="sc card"><div class="sc-lbl">Special Events</div><div class="sc-val" style="color:var(--violet)">${FW.events.all().length}</div><div class="sc-sub">Created</div></div>`;
+  document.getElementById('pendingActions').innerHTML=`
+    <button class="btn btn-warn btn-sm" onclick="adNav('registrations')" style="justify-content:flex-start">📝 ${pending} Pending Registrations</button>
+    <button class="btn btn-warn btn-sm" onclick="adNav('submissions')" style="justify-content:flex-start">📸 ${pendSubs} Pending Task Proofs</button>
+    <button class="btn btn-warn btn-sm" onclick="adNav('deposits')" style="justify-content:flex-start">💳 ${pendDeps} Pending Deposits</button>
+    <button class="btn btn-warn btn-sm" onclick="adNav('withdrawals')" style="justify-content:flex-start">💸 ${pendWds} Pending Withdrawals</button>`;
+  const totalBal=users.reduce((s,u)=>s+(u.balance||0),0);
+  const totalEarned=users.reduce((s,u)=>s+(u.totalEarned||0),0);
+  document.getElementById('quickStats').innerHTML=`
+    <div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--b2);font-size:.84rem"><span style="color:var(--t3)">Total User Balances</span><span style="font-weight:700;color:var(--gold)">${fmt(totalBal)}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--b2);font-size:.84rem"><span style="color:var(--t3)">Total Earnings Paid</span><span style="font-weight:700;color:var(--green)">${fmt(totalEarned)}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--b2);font-size:.84rem"><span style="color:var(--t3)">Total Submissions</span><span style="font-weight:700;color:var(--cyan)">${subs.length}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:.45rem 0;font-size:.84rem"><span style="color:var(--t3)">Approved Submissions</span><span style="font-weight:700;color:var(--green)">${subs.filter(s=>s.status==='approved').length}</span></div>`;
+}
+
+function renderRegistrations(){
+  const search=document.getElementById('regSearch').value.toLowerCase();
+  const filter=document.getElementById('regFilter').value;
+  const users=FW.users.all().filter(u=>(!filter||u.status===filter)&&(!search||(u.fullName+u.email+u.username+u.phone).toLowerCase().includes(search)));
+  document.getElementById('regBody').innerHTML=users.map(u=>`<tr id="rr-${u.id}">
+    <td><div class="uc"><div class="uav">${u.fullName.slice(0,2).toUpperCase()}</div><div><div class="un">${u.fullName}</div><div class="ue">${u.username}</div></div></div></td>
+    <td><div style="font-size:.8rem">${u.email}</div><div class="ue">${u.phone}</div></td>
+    <td>${u.country||'—'}</td>
+    <td><span class="mono">${u.registrationTxid?u.registrationTxid.slice(0,14)+'...':'—'}</span></td>
+    <td>${u.registrationScreenshot?`<img src="${u.registrationScreenshot}" style="width:48px;height:36px;object-fit:cover;border-radius:4px;cursor:pointer;border:1px solid var(--b2)" onclick="window.open('${u.registrationScreenshot}','_blank')" title="View screenshot"/>`:'—'}</td>
+    <td class="st-${u.id}">${statusBadge(u.status)}</td>
+    <td style="font-size:.75rem;color:var(--t3)">${fmtDate(u.createdAt)}</td>
+    <td><div class="abtns">
+      <button class="btn btn-success btn-xs" onclick="doApproveUser('${u.id}')">✅ Approve</button>
+      <button class="btn btn-danger btn-xs" onclick="openActionModal('reject-user','${u.id}','Reject Registration','Reason for rejection:')">❌ Reject</button>
+      <button class="btn btn-ghost btn-xs" onclick="openUserModal('${u.id}')">👁 View</button>
+    </div></td>
+  </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:2rem">No registrations found.</td></tr>';
+}
+
+function renderUsers(){
+  const search=document.getElementById('userSearch').value.toLowerCase();
+  const tierF=document.getElementById('userTierFilter').value;
+  const statF=document.getElementById('userStatusFilter').value;
+  const users=FW.users.all().filter(u=>
+    (!tierF||u.tier===tierF)&&(!statF||u.status===statF)&&
+    (!search||(u.fullName+u.email+u.username+u.phone).toLowerCase().includes(search))
+  );
+  const s=FW.settings.get();
+  document.getElementById('userBody').innerHTML=users.map(u=>{
+    const elig=FW.users.checkWithdrawEligibility(u.id);
+    return `<tr id="ur-${u.id}">
+      <td><div class="uc"><div class="uav">${u.fullName.slice(0,2).toUpperCase()}</div><div><div class="un">${u.fullName}</div><div class="ue">${u.email}</div></div></div></td>
+      <td>${tierBadge(u.tier)}</td>
+      <td style="color:var(--gold);font-weight:700">${fmt(u.balance)}</td>
+      <td>${u.tasksTotal||0}</td>
+      <td style="color:var(--green);font-weight:600">${u.tasksApproved||0}/${s.maxTasksPerUser}</td>
+      <td>${elig.eligible?'<span class="badge bg">Yes</span>':'<span class="badge br">No</span>'}</td>
+      <td style="font-size:.75rem;color:var(--t3)">${u.lastTaskCompletedAt?fmtDate(u.lastTaskCompletedAt):'—'}</td>
+      <td class="st-${u.id}">${statusBadge(u.status)}</td>
+      <td><div class="abtns">
+        <button class="btn btn-ghost btn-xs" onclick="openUserModal('${u.id}')">View</button>
+        <button class="btn btn-success btn-xs" onclick="doApproveUser('${u.id}')">Approve</button>
+        <button class="btn btn-danger btn-xs" onclick="doSuspendUser('${u.id}')">Suspend</button>
+        <button class="btn btn-warn btn-xs" onclick="doResetTasks('${u.id}',false)">Reset Tasks</button>
+        <button class="btn btn-ghost btn-xs" onclick="openBalanceModal('${u.id}')">+ Balance</button>
+        <select class="fs" onchange="doChangeTier('${u.id}',this.value);this.selectedIndex=0" style="font-size:.7rem;padding:.2rem">
+          <option>Change Tier</option><option value="demo">Demo</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="diamond">Diamond</option>
+        </select>
+      </div></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--t3);padding:2rem">No users found.</td></tr>';
+}
+
+function renderUploadTask(){
+  const users=FW.users.all().filter(u=>u.status==='approved');
+  document.getElementById('tuAssigned').innerHTML='<option value="">Select user...</option>'+users.map(u=>`<option value="${u.id}">${u.fullName} (${u.username})</option>`).join('');
+}
+function toggleAssigned(){
+  const t=document.getElementById('tuType').value;
+  document.getElementById('tuAssignedWrap').style.display=(t==='specific'||t==='shared')?'block':'none';
+}
+
+function renderTasks(){
+  document.getElementById('taskAdminBody').innerHTML=FW.tasks.all().sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).map(t=>`<tr>
+    <td style="color:var(--t1);font-weight:600">${t.title}</td>
+    <td>${tierBadge(t.tier)}</td>
+    <td><span class="badge bgr">${t.type}</span></td>
+    <td style="color:var(--gold);font-weight:700">${fmt(t.reward)}</td>
+    <td>${statusBadge(t.status)}</td>
+    <td style="font-size:.75rem;color:var(--t3)">${fmtDate(t.createdAt)}</td>
+    <td><div class="abtns">
+      <button class="btn btn-warn btn-xs" onclick="FW.tasks.update('${t.id}',{status:t.status==='active'?'paused':'active'});showToast('Status updated','success');renderTasks()">Toggle</button>
+      <button class="btn btn-danger btn-xs" onclick="if(confirm('Delete task?')){FW.db.setList('tasks',FW.tasks.all().filter(x=>x.id!=='${t.id}'));showToast('Task deleted','success');renderTasks()}">Del</button>
+    </div></td>
+  </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:2rem">No tasks yet.</td></tr>';
+}
+
+function renderCampaigns(){
+  document.getElementById('campAdminBody').innerHTML=FW.campaigns.all().sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).map(c=>`<tr>
+    <td style="color:var(--t1);font-weight:600">${c.title}</td>
+    <td><span class="badge bgr">${c.type}</span></td>
+    <td>${tierBadge(c.tier)}</td>
+    <td style="color:var(--gold);font-weight:700">${fmt(c.reward)}</td>
+    <td>${statusBadge(c.status)}</td>
+    <td style="font-size:.75rem;color:var(--t3)">${fmtDate(c.createdAt)}</td>
+    <td><button class="btn btn-warn btn-xs" onclick="FW.campaigns.update('${c.id}',{status:c.status==='active'?'paused':'active'});showToast('Updated','success');renderCampaigns()">Toggle</button></td>
+  </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:2rem">No campaigns yet.</td></tr>';
+}
+
+function renderUploadCamp(){
+  const users=FW.users.all().filter(u=>u.status==='approved');
+  document.getElementById('cpAssigned').innerHTML='<option value="">Select user...</option>'+users.map(u=>`<option value="${u.id}">${u.fullName} (${u.username})</option>`).join('');
+}
+function toggleCampAssigned(){
+  const t=document.getElementById('cpType').value;
+  document.getElementById('cpAssignedWrap').style.display=(t==='specific'||t==='shared')?'block':'none';
+}
+
+function renderEvents(){
+  const users=FW.users.all();
+  document.getElementById('evAdminBody').innerHTML=FW.events.all().sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).map(ev=>{
+    const u=users.find(x=>x.id===ev.assignedUser);
+    return `<tr>
+      <td style="color:var(--t1);font-weight:600">${ev.title}</td>
+      <td>${u?`<div class="uc"><div class="uav" style="width:24px;height:24px;font-size:.6rem">${u.fullName.slice(0,2).toUpperCase()}</div>${u.fullName}</div>`:'—'}</td>
+      <td style="color:var(--gold);font-weight:700">${fmt(ev.reward)}</td>
+      <td>${statusBadge(ev.status)}</td>
+      <td>${ev.submissionStatus?statusBadge(ev.submissionStatus):'<span style="color:var(--t4);font-size:.8rem">Not submitted</span>'}</td>
+      <td style="font-size:.75rem;color:var(--t3)">${ev.endDate?new Date(ev.endDate).toLocaleDateString():'—'}</td>
+      <td><div class="abtns">
+        <button class="btn btn-success btn-xs" onclick="doApproveEvent('${ev.id}')">✅ Approve</button>
+        <button class="btn btn-danger btn-xs" onclick="openActionModal('reject-event','${ev.id}','Reject Event','Rejection reason:')">❌ Reject</button>
+        <button class="btn btn-danger btn-xs" onclick="FW.events.update('${ev.id}',{status:'cancelled'});showToast('Event cancelled','warning');renderEvents()">Cancel</button>
+      </div></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:2rem">No special events yet.</td></tr>';
+}
+
+function renderCreateEvent(){
+  const users=FW.users.all().filter(u=>u.status==='approved');
+  document.getElementById('evAssigned').innerHTML='<option value="">Select user...</option>'+users.map(u=>`<option value="${u.id}">${u.fullName} (${u.username})</option>`).join('');
+}
+
+function renderSubmissions(){
+  const search=document.getElementById('subSearch').value.toLowerCase();
+  const filter=document.getElementById('subFilter').value;
+  const users=FW.users.all();
+  const subs=FW.submissions.all().filter(s=>(!filter||s.status===filter)&&(!search||s.taskTitle.toLowerCase().includes(search)||((users.find(u=>u.id===s.userId)||{}).fullName||'').toLowerCase().includes(search))).sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
+  document.getElementById('subBody').innerHTML=subs.map(s=>{
+    const u=users.find(x=>x.id===s.userId);
+    return `<tr id="sr-${s.id}">
+      <td>${u?`<div class="uc"><div class="uav" style="width:26px;height:26px;font-size:.6rem">${u.fullName.slice(0,2).toUpperCase()}</div><div><div class="un">${u.fullName}</div><div class="ue">${u.username}</div></div></div>`:'—'}</td>
+      <td style="color:var(--t1);max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.taskTitle}</td>
+      <td style="color:var(--gold);font-weight:700">${fmt(s.reward)}</td>
+      <td style="max-width:150px;font-size:.8rem;color:var(--t3)">${s.note?s.note.slice(0,50)+'...':'—'}</td>
+      <td class="ss-${s.id}">${statusBadge(s.status)}</td>
+      <td style="font-size:.75rem;color:var(--t3)">${fmtDate(s.submittedAt)}</td>
+      <td><div class="abtns">
+        ${s.screenshot?`<button class="btn btn-ghost btn-xs" onclick="window.open('${s.screenshot}','_blank')">📸 Proof</button>`:''}
+        <button class="btn btn-success btn-xs" onclick="doApproveSub('${s.id}')">✅ Approve</button>
+        <button class="btn btn-danger btn-xs" onclick="openActionModal('reject-sub','${s.id}','Reject Submission','Rejection reason:')">❌ Reject</button>
+      </div></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:2rem">No submissions found.</td></tr>';
+}
+
+function renderDeposits(){
+  const users=FW.users.all();
+  const deps=FW.deposits.all().sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
+  document.getElementById('depBody').innerHTML=deps.map(d=>{
+    const u=users.find(x=>x.id===d.userId);
+    return `<tr id="dr-${d.id}">
+      <td>${u?`<div class="uc"><div class="uav" style="width:26px;height:26px;font-size:.6rem">${u.fullName.slice(0,2).toUpperCase()}</div>${u.fullName}</div>`:'—'}</td>
+      <td style="color:var(--gold);font-weight:700">${fmt(d.amount)}</td>
+      <td>${d.method||'—'}</td>
+      <td><span class="mono">${d.txid?d.txid.slice(0,16)+'...':'—'}</span></td>
+      <td>${d.screenshot?`<img src="${d.screenshot}" style="width:48px;height:36px;object-fit:cover;border-radius:4px;cursor:pointer;border:1px solid var(--b2)" onclick="window.open('${d.screenshot}','_blank')" title="View"/>`:'—'}</td>
+      <td class="ds-${d.id}">${statusBadge(d.status)}</td>
+      <td style="font-size:.75rem;color:var(--t3)">${fmtDate(d.submittedAt)}</td>
+      <td><div class="abtns">
+        <button class="btn btn-success btn-xs" onclick="doApproveDeposit('${d.id}')">✅ Approve</button>
+        <button class="btn btn-danger btn-xs" onclick="openActionModal('reject-dep','${d.id}','Reject Deposit','Rejection reason:')">❌ Reject</button>
+      </div></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:2rem">No deposits.</td></tr>';
+}
+
+function renderWithdrawals(){
+  const users=FW.users.all();
+  const wds=FW.withdrawals.all().sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
+  const s=FW.settings.get();
+  document.getElementById('wdBody').innerHTML=wds.map(w=>{
+    const u=users.find(x=>x.id===w.userId);
+    const elig=FW.users.checkWithdrawEligibility(w.userId);
+    return `<tr id="wr-${w.id}">
+      <td>${u?`<div class="uc"><div class="uav" style="width:26px;height:26px;font-size:.6rem">${u.fullName.slice(0,2).toUpperCase()}</div><div><div class="un">${u.fullName}</div><div class="ue">${u.username}</div></div></div>`:'—'}</td>
+      <td style="color:var(--cyan);font-weight:700">${fmt(w.amount)}</td>
+      <td>${w.method||'—'}</td>
+      <td style="font-size:.78rem;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${w.accountDetails||'—'}</td>
+      <td style="color:var(--green);font-weight:600">${w.tasksApproved||0}/${s.maxTasksPerUser}</td>
+      <td>${(w.tasksApproved||0)>=s.maxTasksPerUser?'<span class="badge bg">Yes</span>':'<span class="badge br">No</span>'}</td>
+      <td class="ws-${w.id}">${statusBadge(w.status)}</td>
+      <td style="font-size:.75rem;color:var(--t3)">${fmtDate(w.submittedAt)}</td>
+      <td><div class="abtns">
+        <button class="btn btn-success btn-xs" onclick="doApproveWd('${w.id}')">✅ Approve</button>
+        <button class="btn btn-danger btn-xs" onclick="openActionModal('reject-wd','${w.id}','Reject Withdrawal','Rejection reason:')">❌ Reject</button>
+      </div></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--t3);padding:2rem">No withdrawals.</td></tr>';
+}
+
+function renderNotifAdmin(){
+  const users=FW.users.all().filter(u=>u.status==='approved');
+  document.getElementById('notifUser').innerHTML='<option value="">Select user...</option>'+users.map(u=>`<option value="${u.id}">${u.fullName} (${u.username})</option>`).join('');
+}
+function toggleNotifUser(){
+  const v=document.getElementById('notifTarget').value;
+  document.getElementById('notifTierWrap').style.display=v==='tier'?'block':'none';
+  document.getElementById('notifUserWrap').style.display=v==='user'?'block':'none';
+}
+
+function renderAudit(){
+  const logs=FW.audit.all().slice(0,200);
+  document.getElementById('auditBody').innerHTML=logs.map(l=>`<tr>
+    <td><span class="badge bgr" style="font-size:.66rem">${l.action}</span></td>
+    <td style="font-size:.8rem">${l.performedBy==='admin'?'<span style="color:var(--red)">Admin</span>':l.performedBy||'—'}</td>
+    <td>${l.targetUser?l.targetUser.slice(0,8)+'...':'—'}</td>
+    <td style="font-size:.75rem;color:var(--t3);max-width:200px">${JSON.stringify(l.details||{}).slice(0,80)}</td>
+    <td style="font-size:.73rem;color:var(--t3)">${fmtDate(l.timestamp)}</td>
+  </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--t3);padding:2rem">No audit log entries.</td></tr>';
+}
+
+function renderSettings(){
+  const s=FW.settings.get();
+  document.getElementById('sRegFee').value=s.registrationFee;
+  document.getElementById('sCoin').value=s.coin;
+  document.getElementById('sNetwork').value=s.network;
+  document.getElementById('sWallet').value=s.walletAddress;
+  document.getElementById('sMaxTasks').value=s.maxTasksPerUser;
+  document.getElementById('sResetHours').value=s.taskResetHours;
+  document.getElementById('sWdHold').value=s.withdrawHoldHours;
+  document.getElementById('sMinWd').value=s.minWithdrawal;
+  document.getElementById('sPlatName').value=s.platformName;
+  document.getElementById('sSupportEmail').value=s.supportEmail;
+}
+
+// Actions
+function doApproveUser(id){ FW.users.approve(id); showToast('User approved!','success'); updateStatusCell(id,'approved'); renderOverview(); }
+function doSuspendUser(id){ FW.users.suspend(id); showToast('User suspended.','warning'); updateStatusCell(id,'suspended'); }
+function doChangeTier(id,tier){ if(!tier||tier==='Change Tier') return; FW.users.changeTier(id,tier); showToast(`Tier changed to ${tier}!`,'success'); }
+function doResetTasks(id,override){
+  const s=FW.settings.get();
+  const u=FW.users.find(id);
+  if(!override&&u.lastTaskCompletedAt){
+    const hrs=(Date.now()-new Date(u.lastTaskCompletedAt).getTime())/3600000;
+    if(hrs<s.taskResetHours){ if(!confirm(`Only ${hrs.toFixed(1)}h since last task. Reset hours is ${s.taskResetHours}h. Override and reset anyway?`)) return; }
+  }
+  FW.users.resetTasks(id,true); showToast('Tasks reset!','success');
+}
+function doApproveEvent(id){ FW.events.approve(id); showToast('Event approved! Reward added.','success'); renderEvents(); }
+function doApproveSub(id){ FW.submissions.approve(id); showToast('Submission approved! Reward added.','success'); const el=document.querySelector('.ss-'+id); if(el) el.innerHTML='<span class="badge bg">approved</span>'; renderOverview(); }
+function doApproveDeposit(id){ FW.deposits.approve(id); showToast('Deposit approved!','success'); const el=document.querySelector('.ds-'+id); if(el) el.innerHTML='<span class="badge bg">approved</span>'; renderOverview(); }
+function doApproveWd(id){ FW.withdrawals.approve(id); showToast('Withdrawal approved!','success'); const el=document.querySelector('.ws-'+id); if(el) el.innerHTML='<span class="badge bg">approved</span>'; renderOverview(); }
+function updateStatusCell(id,status){ const cls=status==='approved'?'bg':status==='rejected'?'br':status==='suspended'?'bor':'bgold'; ['st-','ss-','ds-','ws-'].forEach(p=>{ const el=document.querySelector('.'+p+id); if(el) el.innerHTML=`<span class="badge ${cls}">${status}</span>`; }); }
+
+// Action modal
+let pendingAction=null;
+function openActionModal(type,id,title,label){
+  document.getElementById('amTitle').textContent=title;
+  document.getElementById('amLabel').textContent=label;
+  document.getElementById('amReason').value='';
+  document.getElementById('actionModal').classList.add('open');
+  pendingAction={type,id};
+}
+document.getElementById('amConfirm').addEventListener('click',()=>{
+  if(!pendingAction) return;
+  const reason=document.getElementById('amReason').value.trim();
+  const {type,id}=pendingAction;
+  if(type==='reject-user'){ FW.users.reject(id,reason); showToast('User rejected.','error'); updateStatusCell(id,'rejected'); renderRegistrations(); renderOverview(); }
+  else if(type==='reject-sub'){ FW.submissions.reject(id,reason); showToast('Submission rejected.','error'); const el=document.querySelector('.ss-'+id); if(el) el.innerHTML='<span class="badge br">rejected</span>'; }
+  else if(type==='reject-dep'){ FW.deposits.reject(id,reason); showToast('Deposit rejected.','error'); const el=document.querySelector('.ds-'+id); if(el) el.innerHTML='<span class="badge br">rejected</span>'; }
+  else if(type==='reject-wd'){ FW.withdrawals.reject(id,reason); showToast('Withdrawal rejected. Balance returned.','error'); const el=document.querySelector('.ws-'+id); if(el) el.innerHTML='<span class="badge br">rejected</span>'; }
+  else if(type==='reject-event'){ FW.events.reject(id,reason); showToast('Event rejected.','error'); renderEvents(); }
+  document.getElementById('actionModal').classList.remove('open');
+  pendingAction=null;
+});
+
+// User detail modal
+function openUserModal(id){
+  const u=FW.users.find(id);
+  if(!u) return;
+  const s=FW.settings.get();
+  const elig=FW.users.checkWithdrawEligibility(id);
+  const subs=FW.submissions.forUser(id);
+  document.getElementById('umTitle').textContent=`${u.fullName} — User Details`;
+  document.getElementById('umBody').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.25rem">
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Full Name</div><div style="font-weight:600;color:var(--t1)">${u.fullName}</div></div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Status</div>${statusBadge(u.status)}</div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Email</div><div style="font-family:var(--fm);font-size:.78rem;color:var(--cyan)">${u.email}</div></div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Phone</div><div style="font-size:.85rem">${u.phone}</div></div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Tier</div>${tierBadge(u.tier)}</div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Balance</div><div style="font-weight:700;color:var(--gold)">${fmt(u.balance)}</div></div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Tasks Approved</div><div style="font-weight:700;color:var(--green)">${u.tasksApproved||0} / ${s.maxTasksPerUser}</div></div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Tasks Pending</div><div style="font-weight:700;color:var(--gold)">${u.tasksPending||0}</div></div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Withdraw Eligible</div>${elig.eligible?'<span class="badge bg">Yes</span>':'<span class="badge br">No</span>'}</div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Last Withdrawal</div><div style="font-size:.8rem">${fmtDate(u.lastWithdrawalAt)}</div></div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Last Task Completed</div><div style="font-size:.8rem">${fmtDate(u.lastTaskCompletedAt)}</div></div>
+      <div><div style="font-family:var(--fm);font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-bottom:.2rem">Reg TXID</div><div style="font-family:var(--fm);font-size:.72rem;color:var(--cyan);word-break:break-all">${u.registrationTxid||'—'}</div></div>
+    </div>
+    <div style="border-top:1px solid var(--b2);padding-top:1rem;margin-bottom:1rem">
+      <div style="font-family:var(--fd);font-size:.85rem;font-weight:700;color:var(--t1);margin-bottom:.65rem">Quick Actions</div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-success btn-sm" onclick="doApproveUser('${u.id}');document.getElementById('userModal').classList.remove('open')">✅ Approve</button>
+        <button class="btn btn-danger btn-sm" onclick="document.getElementById('userModal').classList.remove('open');openActionModal('reject-user','${u.id}','Reject User','Rejection reason:')">❌ Reject</button>
+        <button class="btn btn-warn btn-sm" onclick="doSuspendUser('${u.id}');document.getElementById('userModal').classList.remove('open')">⏸ Suspend</button>
+        <button class="btn btn-ghost btn-sm" onclick="doResetTasks('${u.id}',false);document.getElementById('userModal').classList.remove('open')">🔄 Reset Tasks</button>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--b2);padding-top:1rem">
+      <div style="font-family:var(--fd);font-size:.85rem;font-weight:700;color:var(--t1);margin-bottom:.65rem">Recent Submissions (${subs.length})</div>
+      ${subs.length?subs.slice(0,5).map(s=>`<div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--b2);font-size:.82rem"><span style="color:var(--t2)">${s.taskTitle}</span><span style="display:flex;gap:.5rem;align-items:center">${fmt(s.reward)} ${statusBadge(s.status)}</span></div>`).join(''):'<div style="color:var(--t4);font-size:.83rem">No submissions yet.</div>'}
+    </div>`;
+  document.getElementById('userModal').classList.add('open');
+}
+
+function openBalanceModal(id){
+  const amt=prompt('Add balance amount ($):');
+  if(!amt||isNaN(amt)||+amt<=0) return;
+  const note=prompt('Note (optional):') || '';
+  FW.users.addBalance(id,+amt,note);
+  showToast(`$${(+amt).toFixed(2)} added to user balance!`,'success');
+  renderUsers();
+}
+
+// Form submissions
+document.getElementById('tuSubmitBtn').addEventListener('click',()=>{
+  const title=document.getElementById('tuTitle').value.trim();
+  const reward=document.getElementById('tuReward').value;
+  const desc=document.getElementById('tuDesc').value.trim();
+  if(!title||!reward||!desc){ showToast('Please fill required fields.','error'); return; }
+  const type=document.getElementById('tuType').value;
+  const assignedUser=(type==='specific'||type==='shared')?document.getElementById('tuAssigned').value:'';
+  if((type==='specific'||type==='shared')&&!assignedUser){ showToast('Please select a user.','error'); return; }
+  FW.tasks.create({title,reward,description:desc,link:document.getElementById('tuLink').value.trim(),tier:document.getElementById('tuTier').value,type,assignedUser,maxCompletions:document.getElementById('tuMax').value});
+  document.getElementById('taskUploadSuccess').style.display='flex';
+  showToast('Task created!','success');
+  document.getElementById('as-upload-task').querySelectorAll('input[type=text],input[type=number],textarea').forEach(el=>el.value='');
+});
+
+document.getElementById('cpSubmitBtn').addEventListener('click',()=>{
+  const title=document.getElementById('cpTitle').value.trim();
+  const desc=document.getElementById('cpDesc').value.trim();
+  if(!title||!desc){ showToast('Please fill required fields.','error'); return; }
+  const type=document.getElementById('cpType').value;
+  const assignedUser=(type==='specific'||type==='shared')?document.getElementById('cpAssigned').value:'';
+  if((type==='specific'||type==='shared')&&!assignedUser){ showToast('Please select a user.','error'); return; }
+  FW.campaigns.create({title,description:desc,type,tier:document.getElementById('cpTier').value,reward:document.getElementById('cpReward').value,assignedUser});
+  document.getElementById('campSuccess').style.display='flex';
+  showToast('Campaign created!','success');
+});
+
+document.getElementById('evSubmitBtn').addEventListener('click',()=>{
+  const title=document.getElementById('evTitle').value.trim();
+  const desc=document.getElementById('evDesc').value.trim();
+  const reward=document.getElementById('evReward').value;
+  const assignedUser=document.getElementById('evAssigned').value;
+  if(!title||!desc||!reward||!assignedUser){ showToast('Please fill all required fields.','error'); return; }
+  FW.events.create({title,description:desc,link:document.getElementById('evLink').value,reward,assignedUser,startDate:document.getElementById('evStart').value,endDate:document.getElementById('evEnd').value});
+  document.getElementById('evSuccess').style.display='flex';
+  showToast('Special event created and user notified!','success');
+});
+
+document.getElementById('notifSendBtn').addEventListener('click',()=>{
+  const target=document.getElementById('notifTarget').value;
+  const title=document.getElementById('notifTitle').value.trim();
+  const msg=document.getElementById('notifMsg').value.trim();
+  const type=document.getElementById('notifType').value;
+  if(!title||!msg){ showToast('Title and message required.','error'); return; }
+  if(target==='all') FW.notifications.sendAll(title,msg,type);
+  else if(target==='tier') FW.notifications.sendTier(document.getElementById('notifTier').value,title,msg,type);
+  else if(target==='user'){ const uid=document.getElementById('notifUser').value; if(!uid){showToast('Select a user.','error');return;} FW.notifications.send(uid,title,msg,type); }
+  document.getElementById('notifSuccess').style.display='flex';
+  document.getElementById('notifTitle').value=''; document.getElementById('notifMsg').value='';
+  showToast('Notification sent!','success');
+});
+
+document.getElementById('saveSettingsBtn').addEventListener('click',()=>{
+  const s={
+    registrationFee:document.getElementById('sRegFee').value,
+    coin:document.getElementById('sCoin').value,
+    network:document.getElementById('sNetwork').value,
+    walletAddress:document.getElementById('sWallet').value,
+    maxTasksPerUser:+document.getElementById('sMaxTasks').value,
+    taskResetHours:+document.getElementById('sResetHours').value,
+    withdrawHoldHours:+document.getElementById('sWdHold').value,
+    minWithdrawal:document.getElementById('sMinWd').value,
+    platformName:document.getElementById('sPlatName').value,
+    supportEmail:document.getElementById('sSupportEmail').value
+  };
+  FW.settings.save(s);
+  FW.audit.log('settings_updated','admin',null,{});
+  showToast('Settings saved!','success');
+});
+
+// Search listeners
+['regSearch','regFilter'].forEach(id=>document.getElementById(id)?.addEventListener('input',renderRegistrations));
+['userSearch','userTierFilter','userStatusFilter'].forEach(id=>document.getElementById(id)?.addEventListener('change',renderUsers));
+['subSearch','subFilter'].forEach(id=>document.getElementById(id)?.addEventListener('input',renderSubmissions));
+
+// Sidebar nav
+document.querySelectorAll('.ad-sb-menu a[data-as]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();adNav(a.dataset.as);}));
+
+// Mobile
+document.getElementById('adHam').addEventListener('click',()=>{document.getElementById('adSb').classList.toggle('open');document.getElementById('adOv').classList.toggle('show');});
+document.getElementById('adOv').addEventListener('click',()=>{document.getElementById('adSb').classList.remove('open');document.getElementById('adOv').classList.remove('show');});
+
+// Modal closes
+document.getElementById('umClose').addEventListener('click',()=>document.getElementById('userModal').classList.remove('open'));
+document.getElementById('amClose').addEventListener('click',()=>{document.getElementById('actionModal').classList.remove('open');pendingAction=null;});
+[document.getElementById('userModal'),document.getElementById('actionModal')].forEach(m=>m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('open');pendingAction=null;}}));
+
+// Logout
+document.getElementById('adLogout').addEventListener('click',e=>{e.preventDefault();FW.auth.adminLogout();});
+
+// Init
+renderOverview();
+</script>
+</body>
+</html>

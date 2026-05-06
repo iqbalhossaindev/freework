@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FreeWork — Worker Platform</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body class="platform">
+<div class="wl-overlay" id="wlOv"></div>
+
+<!-- SIDEBAR -->
+<aside class="wl-sb" id="wlSb">
+  <div class="wl-sb-head">
+    <a class="logo" href="index.html" style="text-decoration:none">
+      <div class="logo-mark" style="width:34px;height:34px;font-size:.78rem">FW</div>
+      <span class="logo-name" style="font-size:.98rem">FreeWork</span>
+    </a>
+  </div>
+  <ul class="wl-sb-menu">
+    <li><a href="#" data-sec="dashboard" class="active"><span class="sb-ico">📊</span><span>Dashboard</span></a></li>
+    <li><a href="#" data-sec="tasks"><span class="sb-ico">💼</span><span>My Tasks</span></a></li>
+    <li><a href="#" data-sec="campaigns"><span class="sb-ico">🚀</span><span>Campaigns</span></a></li>
+    <li><a href="#" data-sec="events"><span class="sb-ico">⭐</span><span>Special Events</span></a></li>
+    <li><a href="#" data-sec="submit"><span class="sb-ico">📤</span><span>Submit Proof</span></a></li>
+    <li><a href="#" data-sec="history"><span class="sb-ico">📋</span><span>Task History</span></a></li>
+    <li><a href="#" data-sec="balance"><span class="sb-ico">💰</span><span>Balance</span></a></li>
+    <li><a href="#" data-sec="deposit"><span class="sb-ico">➕</span><span>Deposit</span></a></li>
+    <li id="wdMenuLi"><a href="#" data-sec="withdraw" id="wdMenuLink"><span class="sb-ico">💸</span><span>Withdraw</span><span class="sb-lock" id="wdLock">🔒</span></a></li>
+    <li><a href="#" data-sec="notifications"><span class="sb-ico">🔔</span><span>Notifications</span><span class="sb-notif" id="sbNotifBadge" style="display:none">0</span></a></li>
+    <li><a href="#" data-sec="profile"><span class="sb-ico">👤</span><span>Profile</span></a></li>
+  </ul>
+  <div class="wl-sb-foot">
+    <a href="#" id="logoutBtn">🚪 Logout</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="wl-main">
+  <header class="wl-topbar">
+    <div class="wl-ham" id="wlHam"><span></span><span></span><span></span></div>
+    <span class="wl-tb-title" id="tbTitle">Dashboard</span>
+    <div class="wl-tb-right">
+      <div class="wl-bell" id="bellBtn">🔔<span class="wl-bell-dot" id="bellDot" style="display:none"></span></div>
+      <div class="wl-av" id="userAv">?</div>
+    </div>
+  </header>
+
+  <div class="wl-content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <section class="wl-sec active" id="sec-dashboard">
+      <div class="sec-hd">
+        <div><div class="sec-hd-t" id="greetUser">Welcome back!</div><div class="sec-hd-s" id="greetSub">Here's your overview</div></div>
+        <span class="badge" id="tierBadge">—</span>
+      </div>
+
+      <!-- Withdrawal eligibility banner -->
+      <div id="wdEligBanner" style="margin-bottom:1.25rem;display:none"></div>
+
+      <div class="stats-row">
+        <div class="stat-c card"><div class="stat-lbl">Available Balance</div><div class="stat-val" id="dashBal" style="color:var(--gold)">$0.00</div><div class="stat-sub">Ready to withdraw</div></div>
+        <div class="stat-c card"><div class="stat-lbl">Total Earned</div><div class="stat-val" id="dashEarned" style="color:var(--green)">$0.00</div><div class="stat-sub">All time</div></div>
+        <div class="stat-c card"><div class="stat-lbl">Tasks Progress</div><div class="stat-val" id="dashTasksApproved" style="color:var(--cyan)">0/10</div><div class="stat-sub" id="dashTaskSub">Approved tasks</div></div>
+        <div class="stat-c card"><div class="stat-lbl">Pending Tasks</div><div class="stat-val" id="dashTasksPending" style="color:var(--gold)">0</div><div class="stat-sub">Awaiting review</div></div>
+      </div>
+
+      <!-- Task progress bar -->
+      <div class="card card-p" style="margin-bottom:1.25rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+          <span style="font-family:var(--fd);font-size:.92rem;font-weight:600;color:var(--t1)">Task Completion Progress</span>
+          <span id="taskProgressLabel" style="font-family:var(--fm);font-size:.78rem;color:var(--cyan)">0 / 10</span>
+        </div>
+        <div class="pb-track"><div class="pb-fill" id="taskProgressBar" data-w="0" style="width:0%"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-top:.65rem;font-size:.77rem;color:var(--t4)">
+          <span>Complete 10 approved tasks to unlock withdrawal</span>
+          <span id="taskResetInfo" style="color:var(--t3)"></span>
+        </div>
+      </div>
+
+      <!-- Recent notifications -->
+      <div class="card" style="margin-bottom:1.25rem">
+        <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--b2);display:flex;align-items:center;justify-content:space-between">
+          <span style="font-family:var(--fd);font-size:.9rem;font-weight:600;color:var(--t1)">Recent Notifications</span>
+          <a href="#" data-sec="notifications" class="sb-nav-link" style="font-size:.78rem;color:var(--cyan)">View all →</a>
+        </div>
+        <div id="dashNotifs" style="max-height:240px;overflow-y:auto"></div>
+      </div>
+
+      <!-- Quick access -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+        <div class="card card-sm" style="text-align:center;cursor:pointer" data-sec="tasks">
+          <div style="font-size:1.8rem;margin-bottom:.5rem">💼</div>
+          <div style="font-weight:600;color:var(--t1);font-size:.88rem">View Tasks</div>
+        </div>
+        <div class="card card-sm" style="text-align:center;cursor:pointer" data-sec="submit">
+          <div style="font-size:1.8rem;margin-bottom:.5rem">📤</div>
+          <div style="font-weight:600;color:var(--t1);font-size:.88rem">Submit Proof</div>
+        </div>
+        <div class="card card-sm" style="text-align:center;cursor:pointer" data-sec="deposit">
+          <div style="font-size:1.8rem;margin-bottom:.5rem">➕</div>
+          <div style="font-weight:600;color:var(--t1);font-size:.88rem">Make Deposit</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ MY TASKS ═══ -->
+    <section class="wl-sec" id="sec-tasks">
+      <div class="sec-hd"><div><div class="sec-hd-t">Available Tasks</div><div class="sec-hd-s" id="taskSecSub">Complete tasks to earn rewards</div></div></div>
+      <div class="nbar info" style="margin-bottom:1.25rem">
+        <span class="nbar-ico">ℹ️</span>
+        You can have up to 10 tasks per cycle. After completing all tasks, contact admin to reset for the next cycle.
+      </div>
+      <div id="tasksList" class="task-grid"></div>
+      <div id="noTasksMsg" style="display:none;text-align:center;padding:3rem 1rem">
+        <div style="font-size:2.5rem;margin-bottom:.75rem">📭</div>
+        <div style="font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--t1);margin-bottom:.5rem">No Tasks Available</div>
+        <div style="font-size:.88rem;color:var(--t3)">You have completed your available tasks.<br>Please contact admin to reset your tasks after 24 hours.</div>
+      </div>
+    </section>
+
+    <!-- ═══ CAMPAIGNS ═══ -->
+    <section class="wl-sec" id="sec-campaigns">
+      <div class="sec-hd"><div><div class="sec-hd-t">Active Campaigns</div><div class="sec-hd-s">Campaigns available for your tier</div></div></div>
+      <div id="campaignsList" class="task-grid"></div>
+      <div id="noCampaigns" style="display:none;text-align:center;padding:3rem 1rem">
+        <div style="font-size:2.5rem;margin-bottom:.75rem">🚀</div>
+        <div style="font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--t1);margin-bottom:.5rem">No Active Campaigns</div>
+        <div style="font-size:.88rem;color:var(--t3)">No campaigns are currently available for your tier. Check back soon.</div>
+      </div>
+    </section>
+
+    <!-- ═══ SPECIAL EVENTS ═══ -->
+    <section class="wl-sec" id="sec-events">
+      <div class="sec-hd"><div><div class="sec-hd-t">Special Events</div><div class="sec-hd-s">Exclusive events assigned to you</div></div></div>
+      <div id="eventsList" class="task-grid"></div>
+      <div id="noEvents" style="display:none;text-align:center;padding:3rem 1rem">
+        <div style="font-size:2.5rem;margin-bottom:.75rem">⭐</div>
+        <div style="font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--t1);margin-bottom:.5rem">No Special Events</div>
+        <div style="font-size:.88rem;color:var(--t3)">You have no special events assigned. These are exclusive tasks assigned by admin.</div>
+      </div>
+    </section>
+
+    <!-- ═══ SUBMIT PROOF ═══ -->
+    <section class="wl-sec" id="sec-submit">
+      <div class="sec-hd"><div><div class="sec-hd-t">Submit Task Proof</div><div class="sec-hd-s">Upload proof for a completed task</div></div></div>
+      <div class="card card-p" style="max-width:600px">
+        <div id="submitSuccess" class="nbar success" style="display:none;margin-bottom:1rem"><span class="nbar-ico">✅</span><span>Proof submitted! Your submission is now under review.</span></div>
+        <div id="submitErr" class="nbar danger" style="display:none;margin-bottom:1rem"><span class="nbar-ico">❌</span><span id="submitErrMsg"></span></div>
+        <div class="fg">
+          <label class="flabel">Select Task *</label>
+          <select class="fselect" id="submitTaskId"><option value="">Choose a task...</option></select>
+        </div>
+        <div class="fg"><label class="flabel">Completion Note *</label><textarea class="ftextarea" id="submitNote" placeholder="Describe what you did to complete this task..." required></textarea></div>
+        <div class="fg"><label class="flabel">Screenshot Proof *</label>
+          <div class="fu"><input type="file" id="submitScreenshot" accept="image/*"/>
+            <div class="fu-ico">📸</div><div class="fu-txt">Upload your proof screenshot</div>
+          </div>
+          <img id="submitScreenshotPrev" class="fu-preview" alt="Preview"/>
+        </div>
+        <div class="fg"><label class="flabel">Link (Optional)</label><input class="finput" id="submitLink" placeholder="https://... (if applicable)"/></div>
+        <button class="btn btn-p btn-full" id="submitProofBtn">📤 Submit for Review</button>
+      </div>
+    </section>
+
+    <!-- ═══ TASK HISTORY ═══ -->
+    <section class="wl-sec" id="sec-history">
+      <div class="sec-hd"><div><div class="sec-hd-t">Task History</div><div class="sec-hd-s">All your task submissions</div></div></div>
+      <div class="card" style="overflow-x:auto">
+        <table class="hist-table" id="historyTable">
+          <thead><tr><th>Task</th><th>Reward</th><th>Status</th><th>Submitted</th><th>Reviewed</th></tr></thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+        <div id="noHistory" style="display:none;text-align:center;padding:2.5rem;color:var(--t3);font-size:.88rem">No submissions yet.</div>
+      </div>
+    </section>
+
+    <!-- ═══ BALANCE ═══ -->
+    <section class="wl-sec" id="sec-balance">
+      <div class="sec-hd"><div><div class="sec-hd-t">Account Balance</div><div class="sec-hd-s">Your earnings and financial summary</div></div></div>
+      <div class="bal-cards">
+        <div class="bal-c card"><div class="bal-lbl">Available Balance</div><div class="bal-val" id="balAvail" style="color:var(--gold)">$0.00</div></div>
+        <div class="bal-c card"><div class="bal-lbl">Pending Withdrawal</div><div class="bal-val" id="balPending" style="color:var(--orange)">$0.00</div></div>
+        <div class="bal-c card"><div class="bal-lbl">Total Earned</div><div class="bal-val" id="balEarned" style="color:var(--green)">$0.00</div></div>
+        <div class="bal-c card"><div class="bal-lbl">Total Deposited</div><div class="bal-val" id="balDeposited" style="color:var(--cyan)">$0.00</div></div>
+        <div class="bal-c card"><div class="bal-lbl">Total Withdrawn</div><div class="bal-val" id="balWithdrawn" style="color:var(--violet)">$0.00</div></div>
+        <div class="bal-c card"><div class="bal-lbl">Tasks Approved</div><div class="bal-val" id="balTasksApproved" style="color:var(--t1)">0</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1rem">
+        <div>
+          <div style="font-family:var(--fd);font-size:.9rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">Deposit History</div>
+          <div class="card" style="overflow-x:auto">
+            <table class="hist-table"><thead><tr><th>Amount</th><th>Method</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody id="depHistBody"></tbody></table>
+            <div id="noDepHist" style="display:none;padding:1.5rem;text-align:center;color:var(--t3);font-size:.83rem">No deposits yet.</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--fd);font-size:.9rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">Withdrawal History</div>
+          <div class="card" style="overflow-x:auto">
+            <table class="hist-table"><thead><tr><th>Amount</th><th>Method</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody id="wdHistBody"></tbody></table>
+            <div id="noWdHist" style="display:none;padding:1.5rem;text-align:center;color:var(--t3);font-size:.83rem">No withdrawals yet.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ DEPOSIT ═══ -->
+    <section class="wl-sec" id="sec-deposit">
+      <div class="sec-hd"><div><div class="sec-hd-t">Make a Deposit</div><div class="sec-hd-s">Add funds to your account</div></div></div>
+      <div class="card card-p" style="max-width:560px">
+        <div id="depSuccess" class="nbar success" style="display:none;margin-bottom:1rem"><span class="nbar-ico">✅</span><span>Deposit submitted! It will be reviewed and credited to your balance.</span></div>
+        <div id="depErr" class="nbar danger" style="display:none;margin-bottom:1rem"><span class="nbar-ico">❌</span><span id="depErrMsg"></span></div>
+        <div class="wallet-box">
+          <div class="wl">Send Payment To (USDC · Solana)</div>
+          <div class="wa" id="depWallet">Loading...</div>
+          <button class="copy-btn" id="copyDepWallet">⎘ Copy Wallet</button>
+          <div style="margin-top:.65rem;font-size:.79rem;color:var(--gold)">⚠️ Send only on Solana. Wrong network = lost funds.</div>
+        </div>
+        <div class="frow" style="margin-top:1rem">
+          <div class="fg"><label class="flabel">Amount (USDC) *</label><input class="finput" type="number" id="depAmount" placeholder="e.g. 10.00" min="1" step="0.01" required/></div>
+          <div class="fg"><label class="flabel">Payment Method</label><select class="fselect" id="depMethod"><option>USDC (Solana)</option><option>USDT (Solana)</option></select></div>
+        </div>
+        <div class="fg"><label class="flabel">Transaction ID / TXID *</label><input class="finput" id="depTxid" placeholder="Paste your TXID here" required style="font-family:var(--fm);font-size:.82rem"/></div>
+        <div class="fg"><label class="flabel">Payment Screenshot *</label>
+          <div class="fu"><input type="file" id="depScreenshot" accept="image/*"/>
+            <div class="fu-ico">📸</div><div class="fu-txt">Upload payment screenshot</div>
+          </div>
+          <img id="depScreenshotPrev" class="fu-preview" alt="Preview"/>
+        </div>
+        <button class="btn btn-p btn-full" id="depSubmitBtn">📤 Submit Deposit</button>
+      </div>
+    </section>
+
+    <!-- ═══ WITHDRAW ═══ -->
+    <section class="wl-sec" id="sec-withdraw">
+      <div class="sec-hd"><div><div class="sec-hd-t">Request Withdrawal</div><div class="sec-hd-s">Withdraw your available earnings</div></div></div>
+      <!-- locked state -->
+      <div id="wdLocked" style="display:none">
+        <div class="wd-locked">
+          <div class="wd-locked-ico">🔒</div>
+          <div class="wd-locked-t">Withdrawal Locked</div>
+          <div class="wd-locked-msg" id="wdLockedMsg">Pending task. Please complete your tasks first, then request withdrawal.</div>
+        </div>
+        <div style="margin-top:1.25rem" class="card card-p">
+          <div style="font-family:var(--fd);font-size:.9rem;font-weight:600;color:var(--t1);margin-bottom:1rem">Your Task Progress</div>
+          <div class="pb-lbl"><span>Approved Tasks</span><span id="wdTaskCount" style="color:var(--cyan)">0 / 10</span></div>
+          <div class="pb-track"><div class="pb-fill" id="wdProgressBar" style="width:0%"></div></div>
+          <div style="margin-top:.75rem;font-size:.83rem;color:var(--t3)">Complete all 10 tasks and get them approved to unlock withdrawal.</div>
+        </div>
+      </div>
+      <!-- unlocked form -->
+      <div id="wdUnlocked" style="display:none">
+        <div class="nbar success" style="margin-bottom:1.25rem"><span class="nbar-ico">🎉</span><span>All 10 tasks approved! Withdrawal is now available.</span></div>
+        <div class="card card-p" style="max-width:560px">
+          <div id="wdSuccess" class="nbar success" style="display:none;margin-bottom:1rem"><span class="nbar-ico">✅</span><span>Withdrawal request submitted! It will be processed by admin.</span></div>
+          <div id="wdErr" class="nbar danger" style="display:none;margin-bottom:1rem"><span class="nbar-ico">❌</span><span id="wdErrMsg"></span></div>
+          <div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--b2);margin-bottom:1rem;font-size:.88rem">
+            <span style="color:var(--t3)">Available Balance</span>
+            <span style="font-weight:700;color:var(--gold)" id="wdAvailBal">$0.00</span>
+          </div>
+          <div class="fg"><label class="flabel">Withdrawal Amount *</label><input class="finput" type="number" id="wdAmount" placeholder="e.g. 10.00" min="1" step="0.01" required/></div>
+          <div class="fg"><label class="flabel">Payment Method *</label><select class="fselect" id="wdMethod"><option>USDC (Solana)</option><option>USDT (Solana)</option><option>Bank Transfer</option></select></div>
+          <div class="fg"><label class="flabel">Account / Wallet Details *</label><textarea class="ftextarea" id="wdDetails" placeholder="Enter your wallet address or bank account details" style="min-height:75px" required></textarea></div>
+          <div class="nbar warn"><span class="nbar-ico">⚠️</span>Crypto payouts are final. Ensure your wallet address is correct.</div>
+          <button class="btn btn-p btn-full" id="wdSubmitBtn" style="margin-top:.75rem">💸 Request Withdrawal</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ NOTIFICATIONS ═══ -->
+    <section class="wl-sec" id="sec-notifications">
+      <div class="sec-hd">
+        <div><div class="sec-hd-t">Notifications</div><div class="sec-hd-s">Your account updates and alerts</div></div>
+        <button class="btn btn-ghost btn-sm" id="markAllReadBtn">Mark All Read</button>
+      </div>
+      <div class="card" id="notifList"><div style="padding:2rem;text-align:center;color:var(--t3);font-size:.88rem">No notifications yet.</div></div>
+    </section>
+
+    <!-- ═══ PROFILE ═══ -->
+    <section class="wl-sec" id="sec-profile">
+      <div class="sec-hd"><div><div class="sec-hd-t">My Profile</div><div class="sec-hd-s">Your account information</div></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+        <div class="card card-p">
+          <div style="text-align:center;margin-bottom:1.5rem">
+            <div style="width:70px;height:70px;background:linear-gradient(135deg,var(--cyan),var(--violet));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1.3rem;font-weight:700;color:#fff;margin:0 auto .9rem" id="profAvatar">?</div>
+            <div style="font-family:var(--fd);font-size:1.05rem;font-weight:700;color:var(--t1)" id="profName">—</div>
+            <div style="font-size:.82rem;color:var(--t3);margin:.25rem 0" id="profEmail">—</div>
+            <span class="badge" id="profTierBadge">—</span>
+            <span class="badge bg" style="margin-left:.5rem">Active</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.55rem">
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--b2);font-size:.85rem"><span style="color:var(--t3)">Username</span><span style="color:var(--t1);font-family:var(--fm)" id="profUsername">—</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--b2);font-size:.85rem"><span style="color:var(--t3)">Phone</span><span style="color:var(--t1)" id="profPhone">—</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--b2);font-size:.85rem"><span style="color:var(--t3)">Country</span><span style="color:var(--t1)" id="profCountry">—</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;font-size:.85rem"><span style="color:var(--t3)">Member Since</span><span style="color:var(--t1)" id="profSince">—</span></div>
+          </div>
+        </div>
+        <div class="card card-p">
+          <div style="font-family:var(--fd);font-size:.92rem;font-weight:600;color:var(--t1);margin-bottom:1rem">Task Statistics</div>
+          <div style="display:flex;flex-direction:column;gap:.55rem">
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--b2);font-size:.85rem"><span style="color:var(--t3)">Total Submitted</span><span style="font-weight:700;color:var(--t1)" id="stTotal">0</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--b2);font-size:.85rem"><span style="color:var(--t3)">Approved</span><span style="font-weight:700;color:var(--green)" id="stApproved">0</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--b2);font-size:.85rem"><span style="color:var(--t3)">Pending</span><span style="font-weight:700;color:var(--gold)" id="stPending">0</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--b2);font-size:.85rem"><span style="color:var(--t3)">Rejected</span><span style="font-weight:700;color:var(--red)" id="stRejected">0</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.5rem 0;font-size:.85rem"><span style="color:var(--t3)">Withdrawal Eligible</span><span id="stEligible">—</span></div>
+          </div>
+          <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--b2)">
+            <div style="font-size:.78rem;color:var(--t4);margin-bottom:.5rem;font-family:var(--fm)">NEED HELP?</div>
+            <p style="font-size:.83rem;color:var(--t3);line-height:1.55">To reset tasks, request withdrawal approval, or report issues, contact support.</p>
+            <div style="margin-top:.75rem;font-family:var(--fm);font-size:.78rem;color:var(--cyan)" id="profSupport">—</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /wl-content -->
+</main>
+
+<!-- Task Detail Modal -->
+<div class="modal" id="taskModal">
+  <div class="modal-box">
+    <div class="modal-hd"><span class="modal-hd-t" id="taskModalTitle">Task Details</span><div class="modal-x" id="taskModalClose">✕</div></div>
+    <div class="modal-bd">
+      <div class="nbar info" style="margin-bottom:1rem"><span class="nbar-ico">💰</span><strong>Reward: <span id="taskModalReward">—</span></strong></div>
+      <div style="margin-bottom:1rem;font-size:.88rem;color:var(--t2);line-height:1.65" id="taskModalDesc">—</div>
+      <div style="margin-bottom:.75rem"><a href="#" id="taskModalLink" target="_blank" class="btn btn-s btn-sm">🔗 Open Task Link</a></div>
+      <div style="font-size:.78rem;color:var(--t4);margin-bottom:.5rem">After completing, go to Submit Proof to submit your proof.</div>
+      <button class="btn btn-p btn-full" id="taskModalGoSubmit">Go to Submit Proof →</button>
+    </div>
+  </div>
+</div>
+
+<script src="core.js"></script>
+<script>
+'use strict';
+let currentUser = null;
+
+function fmt(n){ return '$'+(+n||0).toFixed(2); }
+function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+function tierBadgeClass(t){ const m={demo:'tier-demo',silver:'tier-silver',gold:'tier-gold',diamond:'tier-diamond'}; return m[t]||'bgr'; }
+function tierLabel(t){ return t ? t.charAt(0).toUpperCase()+t.slice(1)+' Tier' : '—'; }
+
+function showToast(msg, type='info'){
+  let w=document.querySelector('.toast-wrap');
+  if(!w){w=document.createElement('div');w.className='toast-wrap';document.body.appendChild(w);}
+  const icons={success:'✅',error:'❌',warning:'⚠️',info:'💡'};
+  const el=document.createElement('div');el.className=`toast ${type}`;
+  el.innerHTML=`<span>${icons[type]||'💡'}</span><span>${msg}</span>`;
+  w.appendChild(el);
+  setTimeout(()=>{el.classList.add('hiding');setTimeout(()=>el.remove(),280);},3500);
+}
+
+function navigate(secName){
+  document.querySelectorAll('.wl-sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.wl-sb-menu a').forEach(a=>a.classList.remove('active'));
+  const sec=document.getElementById('sec-'+secName);
+  if(sec) sec.classList.add('active');
+  const link=document.querySelector(`.wl-sb-menu a[data-sec="${secName}"]`);
+  if(link) link.classList.add('active');
+  document.getElementById('tbTitle').textContent = link ? link.querySelector('span:last-of-type').textContent : secName;
+  document.querySelector('.wl-sb').classList.remove('open');
+  document.getElementById('wlOv').classList.remove('show');
+  // render section
+  if(secName==='dashboard') renderDashboard();
+  else if(secName==='tasks') renderTasks();
+  else if(secName==='campaigns') renderCampaigns();
+  else if(secName==='events') renderEvents();
+  else if(secName==='history') renderHistory();
+  else if(secName==='balance') renderBalance();
+  else if(secName==='deposit') renderDeposit();
+  else if(secName==='withdraw') renderWithdraw();
+  else if(secName==='notifications') renderNotifications();
+  else if(secName==='profile') renderProfile();
+  else if(secName==='submit') renderSubmit();
+}
+
+function refreshUser(){ currentUser = FW.db.find('users', currentUser.id); }
+
+function renderDashboard(){
+  refreshUser();
+  const u = currentUser;
+  const s = FW.settings.get();
+  document.getElementById('greetUser').textContent = `Welcome back, ${u.fullName.split(' ')[0]}!`;
+  document.getElementById('greetSub').textContent = `${tierLabel(u.tier)} · ${u.status}`;
+  const tb = document.getElementById('tierBadge');
+  tb.textContent = tierLabel(u.tier); tb.className = 'badge '+tierBadgeClass(u.tier);
+  document.getElementById('dashBal').textContent = fmt(u.balance);
+  document.getElementById('dashEarned').textContent = fmt(u.totalEarned);
+  document.getElementById('dashTasksApproved').textContent = `${u.tasksApproved||0}/${s.maxTasksPerUser}`;
+  document.getElementById('dashTasksPending').textContent = u.tasksPending||0;
+
+  const pct = Math.round(((u.tasksApproved||0)/s.maxTasksPerUser)*100);
+  document.getElementById('taskProgressBar').style.width = pct+'%';
+  document.getElementById('taskProgressLabel').textContent = `${u.tasksApproved||0} / ${s.maxTasksPerUser}`;
+
+  // eligibility banner
+  const elig = FW.users.checkWithdrawEligibility(u.id);
+  const banner = document.getElementById('wdEligBanner');
+  if(elig.eligible){
+    banner.style.display='block';
+    banner.innerHTML=`<div class="nbar success"><span class="nbar-ico">🎉</span><strong>Withdrawal unlocked! You have completed all ${s.maxTasksPerUser} approved tasks. <a href="#" data-sec="withdraw" style="color:var(--green);text-decoration:underline">Request withdrawal →</a></strong></div>`;
+  } else { banner.style.display='none'; }
+
+  // lock/unlock wd menu
+  const wdLock = document.getElementById('wdLock');
+  if(elig.eligible){ wdLock.style.display='none'; }
+  else { wdLock.style.display=''; }
+
+  // notif badge
+  const unread = FW.notifications.unreadCount(u.id);
+  const dot = document.getElementById('bellDot');
+  const sbBadge = document.getElementById('sbNotifBadge');
+  if(unread>0){ dot.style.display='block'; sbBadge.style.display='inline'; sbBadge.textContent=unread; }
+  else { dot.style.display='none'; sbBadge.style.display='none'; }
+
+  // recent notifs
+  const notifs = FW.notifications.forUser(u.id).slice(0,4);
+  const dn = document.getElementById('dashNotifs');
+  if(!notifs.length){ dn.innerHTML='<div style="padding:1.25rem;text-align:center;color:var(--t3);font-size:.85rem">No notifications yet.</div>'; }
+  else { dn.innerHTML = notifs.map(n=>`<div class="notif-item${n.read?'':' unread'}" data-nid="${n.id}"><div class="notif-ico">${typeIco(n.type)}</div><div><div class="notif-t">${n.title}</div><div class="notif-msg">${n.message}</div><div class="notif-time">${fmtDate(n.createdAt)}</div></div></div>`).join(''); }
+}
+
+function typeIco(t){ const m={task:'💼',deposit:'💰',withdrawal:'💸',account:'👤',special:'⭐',balance:'💵',info:'💡'}; return m[t]||'🔔'; }
+
+function renderTasks(){
+  refreshUser();
+  const u = currentUser;
+  const tasks = FW.tasks.forUser(u);
+  const list = document.getElementById('tasksList');
+  const noMsg = document.getElementById('noTasksMsg');
+  if(!tasks.length){ list.innerHTML=''; noMsg.style.display='block'; return; }
+  noMsg.style.display='none';
+  list.innerHTML = tasks.map(t=>`
+    <div class="task-card card" data-tid="${t.id}">
+      <div class="tc-header">
+        <div class="tc-title">${t.title}</div>
+        <div class="tc-reward">${fmt(t.reward)}</div>
+      </div>
+      <div class="tc-desc">${t.description.slice(0,120)}${t.description.length>120?'...':''}</div>
+      <div class="tc-footer">
+        <div class="tc-meta">
+          <span class="badge ${tierBadgeClass(t.tier)}">${t.tier.charAt(0).toUpperCase()+t.tier.slice(1)}</span>
+          ${t.type==='special'?'<span class="badge bv">⭐ Special</span>':''}
+          ${t.type==='new-user'?'<span class="badge bc">New User</span>':''}
+        </div>
+        <button class="btn btn-p btn-sm view-task-btn" data-tid="${t.id}">View Task →</button>
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('.view-task-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>openTaskModal(btn.dataset.tid));
+  });
+}
+
+function renderCampaigns(){
+  refreshUser();
+  const u = currentUser;
+  const camps = FW.campaigns.forUser(u);
+  const list = document.getElementById('campaignsList');
+  const noMsg = document.getElementById('noCampaigns');
+  if(!camps.length){ list.innerHTML=''; noMsg.style.display='block'; return; }
+  noMsg.style.display='none';
+  list.innerHTML = camps.map(c=>`
+    <div class="task-card card">
+      <div class="tc-header"><div class="tc-title">🚀 ${c.title}</div><div class="tc-reward">${fmt(c.reward)}</div></div>
+      <div class="tc-desc">${c.description}</div>
+      <div class="tc-footer">
+        <span class="badge ${tierBadgeClass(c.tier)}">${c.tier.charAt(0).toUpperCase()+c.tier.slice(1)}</span>
+        <span class="badge bg">Active</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderEvents(){
+  refreshUser();
+  const u = currentUser;
+  const evs = FW.events.forUser(u.id);
+  const list = document.getElementById('eventsList');
+  const noMsg = document.getElementById('noEvents');
+  if(!evs.length){ list.innerHTML=''; noMsg.style.display='block'; return; }
+  noMsg.style.display='none';
+  list.innerHTML = evs.map(ev=>{
+    const statusBadge = ev.submissionStatus==='approved'?'<span class="badge bg">Approved</span>':ev.submissionStatus==='rejected'?'<span class="badge br">Rejected</span>':ev.status==='completed'?'<span class="badge bgold">Completed</span>':'<span class="badge bc">Active</span>';
+    return `<div class="task-card card" style="border-color:rgba(167,139,250,.2)">
+      <div style="font-size:.65rem;font-family:var(--fm);letter-spacing:.15em;text-transform:uppercase;color:var(--violet);margin-bottom:.5rem">⭐ Special Event</div>
+      <div class="tc-header"><div class="tc-title">${ev.title}</div><div class="tc-reward">${fmt(ev.reward)}</div></div>
+      <div class="tc-desc">${ev.description}</div>
+      <div class="tc-footer">
+        ${statusBadge}
+        ${ev.endDate?`<span style="font-size:.75rem;color:var(--t4)">Ends: ${new Date(ev.endDate).toLocaleDateString()}</span>`:''}
+      </div>
+      ${ev.link?`<a href="${ev.link}" target="_blank" class="btn btn-ghost btn-sm" style="margin-top:.75rem">🔗 Open Event Link</a>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderSubmit(){
+  refreshUser();
+  const u = currentUser;
+  const tasks = FW.tasks.forUser(u);
+  const sel = document.getElementById('submitTaskId');
+  sel.innerHTML = '<option value="">Choose a task...</option>' + tasks.map(t=>`<option value="${t.id}">${t.title} — ${fmt(t.reward)}</option>`).join('');
+}
+
+function renderHistory(){
+  refreshUser();
+  const u = currentUser;
+  const subs = FW.submissions.forUser(u.id).sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
+  const tbody = document.getElementById('historyBody');
+  const noMsg = document.getElementById('noHistory');
+  if(!subs.length){ tbody.innerHTML=''; noMsg.style.display='block'; return; }
+  noMsg.style.display='none';
+  tbody.innerHTML = subs.map(s=>{
+    const cls = s.status==='approved'?'bg':s.status==='rejected'?'br':'bgold';
+    return `<tr><td style="color:var(--t1);font-weight:600">${s.taskTitle}</td><td style="color:var(--gold);font-weight:700">${fmt(s.reward)}</td><td><span class="badge ${cls}">${s.status}</span></td><td style="font-size:.77rem;color:var(--t3)">${fmtDate(s.submittedAt)}</td><td style="font-size:.77rem;color:var(--t3)">${s.reviewedAt?fmtDate(s.reviewedAt):'Pending'}</td></tr>`;
+  }).join('');
+}
+
+function renderBalance(){
+  refreshUser();
+  const u = currentUser;
+  document.getElementById('balAvail').textContent = fmt(u.balance);
+  document.getElementById('balPending').textContent = fmt(u.pendingWithdrawal);
+  document.getElementById('balEarned').textContent = fmt(u.totalEarned);
+  document.getElementById('balDeposited').textContent = fmt(u.totalDeposited);
+  document.getElementById('balWithdrawn').textContent = fmt(u.totalWithdrawn);
+  document.getElementById('balTasksApproved').textContent = u.tasksApproved||0;
+  // dep history
+  const deps = FW.deposits.forUser(u.id).sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
+  const depBody = document.getElementById('depHistBody');
+  const noDepHist = document.getElementById('noDepHist');
+  if(!deps.length){ depBody.innerHTML=''; noDepHist.style.display='block'; }
+  else { noDepHist.style.display='none'; depBody.innerHTML=deps.map(d=>`<tr><td style="color:var(--gold);font-weight:700">${fmt(d.amount)}</td><td style="font-size:.78rem">${d.method}</td><td><span class="badge ${d.status==='approved'?'bg':d.status==='rejected'?'br':'bgold'}">${d.status}</span></td><td style="font-size:.75rem;color:var(--t3)">${fmtDate(d.submittedAt)}</td></tr>`).join(''); }
+  // wd history
+  const wds = FW.withdrawals.forUser(u.id).sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
+  const wdBody = document.getElementById('wdHistBody');
+  const noWdHist = document.getElementById('noWdHist');
+  if(!wds.length){ wdBody.innerHTML=''; noWdHist.style.display='block'; }
+  else { noWdHist.style.display='none'; wdBody.innerHTML=wds.map(w=>`<tr><td style="color:var(--cyan);font-weight:700">${fmt(w.amount)}</td><td style="font-size:.78rem">${w.method}</td><td><span class="badge ${w.status==='approved'?'bg':w.status==='rejected'?'br':'bgold'}">${w.status}</span></td><td style="font-size:.75rem;color:var(--t3)">${fmtDate(w.submittedAt)}</td></tr>`).join(''); }
+}
+
+function renderDeposit(){
+  const s = FW.settings.get();
+  document.getElementById('depWallet').textContent = s.walletAddress;
+  document.getElementById('depSuccess').style.display='none';
+  document.getElementById('depErr').style.display='none';
+}
+
+function renderWithdraw(){
+  refreshUser();
+  const u = currentUser;
+  const elig = FW.users.checkWithdrawEligibility(u.id);
+  const s = FW.settings.get();
+  const locked = document.getElementById('wdLocked');
+  const unlocked = document.getElementById('wdUnlocked');
+  const cnt = document.getElementById('wdTaskCount');
+  const bar = document.getElementById('wdProgressBar');
+  const avail = document.getElementById('wdAvailBal');
+  const wdMsg = document.getElementById('wdLockedMsg');
+  const pct = Math.round(((u.tasksApproved||0)/s.maxTasksPerUser)*100);
+  if(cnt) cnt.textContent = `${u.tasksApproved||0} / ${s.maxTasksPerUser}`;
+  if(bar) bar.style.width = pct+'%';
+  if(elig.eligible){
+    locked.style.display='none'; unlocked.style.display='block';
+    if(avail) avail.textContent = fmt(u.balance);
+  } else {
+    locked.style.display='block'; unlocked.style.display='none';
+    if(wdMsg) wdMsg.textContent = elig.reason;
+  }
+  document.getElementById('wdSuccess').style.display='none';
+  document.getElementById('wdErr').style.display='none';
+}
+
+function renderNotifications(){
+  refreshUser();
+  const u = currentUser;
+  FW.notifications.markAllRead(u.id);
+  const notifs = FW.notifications.forUser(u.id);
+  const list = document.getElementById('notifList');
+  const dot = document.getElementById('bellDot');
+  const sbBadge = document.getElementById('sbNotifBadge');
+  dot.style.display='none'; sbBadge.style.display='none';
+  if(!notifs.length){ list.innerHTML='<div style="padding:2rem;text-align:center;color:var(--t3);font-size:.88rem">No notifications yet.</div>'; return; }
+  list.innerHTML = notifs.map(n=>`
+    <div class="notif-item">
+      <div class="notif-ico">${typeIco(n.type)}</div>
+      <div><div class="notif-t">${n.title}</div><div class="notif-msg">${n.message}</div><div class="notif-time">${fmtDate(n.createdAt)}</div></div>
+    </div>`).join('');
+}
+
+function renderProfile(){
+  refreshUser();
+  const u = currentUser;
+  const initials = u.fullName.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('profAvatar').textContent = initials;
+  document.getElementById('profName').textContent = u.fullName;
+  document.getElementById('profEmail').textContent = u.email;
+  document.getElementById('profUsername').textContent = u.username;
+  document.getElementById('profPhone').textContent = u.phone;
+  document.getElementById('profCountry').textContent = u.country;
+  document.getElementById('profSince').textContent = fmtDate(u.createdAt).split(',')[0];
+  const tb = document.getElementById('profTierBadge');
+  tb.textContent = tierLabel(u.tier); tb.className = 'badge '+tierBadgeClass(u.tier);
+  document.getElementById('stTotal').textContent = u.tasksTotal||0;
+  document.getElementById('stApproved').textContent = u.tasksApproved||0;
+  document.getElementById('stPending').textContent = u.tasksPending||0;
+  document.getElementById('stRejected').textContent = u.tasksRejected||0;
+  const el = document.getElementById('stEligible');
+  const elig = FW.users.checkWithdrawEligibility(u.id);
+  el.innerHTML = elig.eligible ? '<span class="badge bg">Yes</span>' : '<span class="badge br">No</span>';
+  const s = FW.settings.get();
+  document.getElementById('profSupport').textContent = s.supportEmail;
+}
+
+function openTaskModal(tid){
+  const t = FW.tasks.find(tid);
+  if(!t) return;
+  document.getElementById('taskModalTitle').textContent = t.title;
+  document.getElementById('taskModalReward').textContent = fmt(t.reward);
+  document.getElementById('taskModalDesc').textContent = t.description;
+  const lnk = document.getElementById('taskModalLink');
+  if(t.link){ lnk.href=t.link; lnk.style.display='inline-flex'; } else { lnk.style.display='none'; }
+  document.getElementById('taskModal').classList.add('open');
+}
+
+// Init
+currentUser = FW.auth.require();
+if(!currentUser){ window.location.href='login.html'; }
+else {
+  const initials = currentUser.fullName.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('userAv').textContent = initials;
+  renderDashboard();
+
+  // Sidebar nav
+  document.querySelectorAll('.wl-sb-menu a[data-sec]').forEach(a=>{
+    a.addEventListener('click', e=>{ e.preventDefault(); navigate(a.dataset.sec); });
+  });
+  // Quick access cards
+  document.querySelectorAll('[data-sec]').forEach(el=>{
+    if(!el.matches('.wl-sb-menu a')) el.addEventListener('click',()=>navigate(el.dataset.sec));
+  });
+  // Inline links
+  document.querySelectorAll('.sb-nav-link').forEach(a=>{ a.addEventListener('click',e=>{ e.preventDefault(); navigate(a.dataset.sec); }); });
+
+  // Mobile sidebar
+  document.getElementById('wlHam').addEventListener('click',()=>{ document.getElementById('wlSb').classList.toggle('open'); document.getElementById('wlOv').classList.toggle('show'); });
+  document.getElementById('wlOv').addEventListener('click',()=>{ document.getElementById('wlSb').classList.remove('open'); document.getElementById('wlOv').classList.remove('show'); });
+
+  // Bell
+  document.getElementById('bellBtn').addEventListener('click',()=>navigate('notifications'));
+
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', e=>{ e.preventDefault(); FW.auth.logout(); });
+
+  // Task modal close
+  document.getElementById('taskModalClose').addEventListener('click',()=>document.getElementById('taskModal').classList.remove('open'));
+  document.getElementById('taskModal').addEventListener('click',e=>{ if(e.target===document.getElementById('taskModal')) document.getElementById('taskModal').classList.remove('open'); });
+  document.getElementById('taskModalGoSubmit').addEventListener('click',()=>{ document.getElementById('taskModal').classList.remove('open'); navigate('submit'); });
+
+  // Mark all read
+  document.getElementById('markAllReadBtn').addEventListener('click',()=>{ FW.notifications.markAllRead(currentUser.id); renderNotifications(); });
+
+  // Screenshot previews
+  ['submitScreenshot','depScreenshot'].forEach(id=>{
+    document.getElementById(id)?.addEventListener('change',function(){
+      const prev = document.getElementById(id+'Prev');
+      if(this.files[0]&&prev){ const r=new FileReader(); r.onload=e=>{prev.src=e.target.result;prev.style.display='block';}; r.readAsDataURL(this.files[0]); }
+    });
+  });
+
+  // Copy deposit wallet
+  document.getElementById('copyDepWallet')?.addEventListener('click',function(){
+    const s=FW.settings.get(); navigator.clipboard.writeText(s.walletAddress).catch(()=>{});
+    this.innerHTML='✓ Copied'; this.classList.add('copied');
+    setTimeout(()=>{this.innerHTML='⎘ Copy Wallet';this.classList.remove('copied');},2000);
+  });
+
+  // Submit proof
+  document.getElementById('submitProofBtn').addEventListener('click',()=>{
+    const taskId = document.getElementById('submitTaskId').value;
+    const note = document.getElementById('submitNote').value.trim();
+    const ss = document.getElementById('submitScreenshot').files[0];
+    const link = document.getElementById('submitLink').value.trim();
+    const errEl = document.getElementById('submitErr');
+    const errMsg = document.getElementById('submitErrMsg');
+    const sucEl = document.getElementById('submitSuccess');
+    errEl.style.display='none'; sucEl.style.display='none';
+    if(!taskId){ errMsg.textContent='Please select a task.'; errEl.style.display='flex'; return; }
+    if(!note){ errMsg.textContent='Please enter a completion note.'; errEl.style.display='flex'; return; }
+    if(!ss){ errMsg.textContent='Please upload a screenshot.'; errEl.style.display='flex'; return; }
+    const r=new FileReader();
+    r.onload=function(ev){
+      const result = FW.submissions.submit(currentUser.id, taskId, { note, screenshot:ev.target.result, link });
+      if(result.ok){
+        sucEl.style.display='flex';
+        document.getElementById('submitNote').value=''; document.getElementById('submitLink').value='';
+        document.getElementById('submitScreenshot').value='';
+        document.getElementById('submitScreenshotPrev').style.display='none';
+        document.getElementById('submitTaskId').value='';
+        refreshUser();
+        showToast('Proof submitted successfully!','success');
+      } else { errMsg.textContent=result.msg; errEl.style.display='flex'; }
+    };
+    r.readAsDataURL(ss);
+  });
+
+  // Deposit submit
+  document.getElementById('depSubmitBtn').addEventListener('click',()=>{
+    const amt = document.getElementById('depAmount').value;
+    const method = document.getElementById('depMethod').value;
+    const txid = document.getElementById('depTxid').value.trim();
+    const ss = document.getElementById('depScreenshot').files[0];
+    const errEl = document.getElementById('depErr'); const errMsg = document.getElementById('depErrMsg');
+    const sucEl = document.getElementById('depSuccess');
+    errEl.style.display='none'; sucEl.style.display='none';
+    if(!amt||isNaN(amt)||+amt<=0){ errMsg.textContent='Enter a valid amount.'; errEl.style.display='flex'; return; }
+    if(!txid){ errMsg.textContent='TXID is required.'; errEl.style.display='flex'; return; }
+    if(!ss){ errMsg.textContent='Payment screenshot is required.'; errEl.style.display='flex'; return; }
+    const r=new FileReader();
+    r.onload=function(ev){
+      FW.deposits.submit(currentUser.id,{amount:+amt,method,txid,screenshot:ev.target.result});
+      sucEl.style.display='flex';
+      document.getElementById('depAmount').value=''; document.getElementById('depTxid').value='';
+      document.getElementById('depScreenshot').value=''; document.getElementById('depScreenshotPrev').style.display='none';
+      showToast('Deposit submitted!','success');
+    };
+    r.readAsDataURL(ss);
+  });
+
+  // Withdrawal submit
+  document.getElementById('wdSubmitBtn')?.addEventListener('click',()=>{
+    const amt = document.getElementById('wdAmount').value;
+    const method = document.getElementById('wdMethod').value;
+    const details = document.getElementById('wdDetails').value.trim();
+    const errEl = document.getElementById('wdErr'); const errMsg = document.getElementById('wdErrMsg');
+    const sucEl = document.getElementById('wdSuccess');
+    errEl.style.display='none'; sucEl.style.display='none';
+    if(!amt||isNaN(amt)||+amt<=0){ errMsg.textContent='Enter a valid amount.'; errEl.style.display='flex'; return; }
+    if(!details){ errMsg.textContent='Account/wallet details are required.'; errEl.style.display='flex'; return; }
+    const result = FW.withdrawals.submit(currentUser.id,{amount:+amt,method,accountDetails:details});
+    if(result.ok){ sucEl.style.display='flex'; document.getElementById('wdAmount').value=''; document.getElementById('wdDetails').value=''; refreshUser(); renderWithdraw(); showToast('Withdrawal request submitted!','success'); }
+    else { errMsg.textContent=result.msg; errEl.style.display='flex'; }
+  });
+}
+</script>
+</body>
+</html>

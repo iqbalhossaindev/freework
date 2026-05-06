@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>System Access</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;background:var(--void);overflow:hidden;position:relative">
+<div class="orb orb1" style="opacity:.3"></div>
+<div style="width:100%;max-width:380px;position:relative;z-index:1">
+  <div class="card card-p">
+    <div style="text-align:center;margin-bottom:1.75rem">
+      <div style="width:52px;height:52px;background:linear-gradient(135deg,var(--cyan),var(--violet));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto .9rem">🔐</div>
+      <h2 style="font-family:var(--fd);font-size:1.25rem;font-weight:700;color:var(--t1);margin-bottom:.25rem">System Access</h2>
+      <p style="font-size:.83rem;color:var(--t4)">Authorized personnel only</p>
+    </div>
+    <div class="nbar danger" id="errBar" style="display:none;margin-bottom:1rem"><span class="nbar-ico">❌</span><span id="errMsg">Invalid credentials.</span></div>
+    <form id="adminLoginForm">
+      <div class="fg"><label class="flabel">Access Code</label>
+        <input class="finput" type="password" id="adminPass" placeholder="••••••••••••" required autocomplete="off"/>
+      </div>
+      <button type="submit" class="btn btn-p btn-full" id="loginBtn" style="margin-top:.25rem">Access System</button>
+    </form>
+    <div style="margin-top:1.25rem;font-size:.72rem;color:var(--t4);text-align:center;line-height:1.5">
+      Default: Admin@FW2025!<br>
+      <span style="color:var(--void)"><!-- Hidden admin panel --></span>
+    </div>
+  </div>
+  <a href="index.html" style="display:block;text-align:center;margin-top:1rem;font-size:.78rem;color:var(--t4)">← Back to site</a>
+</div>
+<script src="core.js"></script>
+<script>
+if(FW.auth.adminSession()) window.location.href='admin.html';
+document.getElementById('adminLoginForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  const btn=document.getElementById('loginBtn');
+  const err=document.getElementById('errBar');
+  btn.textContent='Verifying...'; btn.disabled=true; err.style.display='none';
+  setTimeout(()=>{
+    if(FW.auth.adminLogin(document.getElementById('adminPass').value)){
+      window.location.href='admin.html';
+    } else {
+      document.getElementById('errMsg').textContent='Invalid access code.';
+      err.style.display='flex'; btn.textContent='Access System'; btn.disabled=false;
+    }
+  },600);
+});
+</script>
+</body>
+</html>
